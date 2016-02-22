@@ -8,11 +8,13 @@
 <dom-module id="open-elements">
   <template>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
-    <paper-filter data="{{data}}" by="group" output="{{output}}"></paper-filter>
+    <paper-filter show-numbers="true" min="2" data="{{data}}" by="group" output="{{output}}"></paper-filter>
     <template is="dom-repeat" items="{{output}}">
-      {{item.name}} <br />
+      <paper-card heading="{{item.name}}"></paper-card>
     </template>
-    
+    <template is="dom-if" if="{{docsFor}}" >
+      <iframe sandbox="allow-scripts allow-same-origin" height="300" style="margin:0; width:100%; border:none;" src="{{_docsSrc(docsFor,_listOfElements)}}"></iframe>
+    </template>
   </template>
 </dom-module>
 <script>
@@ -28,10 +30,10 @@
         var path = elements[i].split('/')
         var file = path.pop()
         var folder =  path.pop()
-        if (file.indexOf("-") !== -1 && file.indexOf(folder)) {
-          output.push({group:file.slice(0, file.indexOf("-")), name:file})
+        if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
+          output.push({group:file.slice(0, file.indexOf("-")), name: file.replace(".html","")})
         }
-      } 
+      }
       return output
     }
   });
