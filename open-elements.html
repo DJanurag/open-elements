@@ -9,13 +9,10 @@
   <template>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <paper-filter show-numbers="true" min="2" data="{{data}}" by="group" output="{{output}}"></paper-filter>
-    <template is="dom-repeat" items="{{output}}">
-      <paper-card heading="{{item.name}}"></paper-card>
-    </template>
     <select value="{{docsFor::input}}">
       <option value="false">show documentation</option>
       <template is="dom-repeat" items="{{output}}" >
-        <option>{{item}}</option>
+        <option>{{item.name}}</option>
       </template>
     </select>
     <template is="dom-if" if="{{docsFor}}" >
