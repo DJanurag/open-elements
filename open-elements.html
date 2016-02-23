@@ -16,6 +16,7 @@
         <option>{{item.name}}</option>
       </template>
     </select>
+    {{output}}
     <template is="dom-if" if="{{docsFor}}" >
       <iron-component-page base="{{_docsBase(docsFor)}}" src="{{getfile(docsFor, list)}}"></iron-component-page>
     </template>
