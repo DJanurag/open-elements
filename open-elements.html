@@ -1,5 +1,6 @@
 <link rel="import" href="../paper-filter/paper-filter.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-component-page/iron-component-page.html">
 <!--
 `<open-elements>` 
 @demo demo.html
@@ -16,7 +17,7 @@
       </template>
     </select>
     <template is="dom-if" if="{{docsFor}}" >
-      <iframe sandbox="allow-scripts allow-same-origin" height="500" style="margin:0; width:100%; border:none;" src="{{_docsSrc(docsFor,list)}}"></iframe>
+      <iron-component-page base="{{_docsBase(docsFor)}}" src="{{getfile(docsFor, list)}}"></iron-component-page>
     </template>
   </template>
 </dom-module>
@@ -39,22 +40,19 @@
       }
       return output
     },
-    _docsSrc: function (docsFor, listOfElements) {
-      return 'data:text/html;charset=utf-8,' + encodeURIComponent(
-        '<base href="https://open-elements.org/bower_components/' + docsFor + '/">\n' +
-        '<link rel="import" href="../iron-component-page/iron-component-page.html">\n' +
-        '<iron-component-page base="https://open-elements.org/bower_components/' + docsFor + '/" src="' + getfile(docsFor, listOfElements) + '"></iron-component-page>'
-      )
-    }
-  })
-  var getfile = function (dependency, listOfElements) {
-    var re = /bower_components/gi
-    var elements = listOfElements.split('\n')
-    for (var i = 0; i < elements.length; ++i) {
-      if (elements[i].indexOf('/' + dependency + '.html') !== -1) {
-        return listOfElements.split('\n')[i].replace(re, '..')
+    _docsBase: function (docsFor) {
+      return "https://open-elements.org/bower_components/' + docsFor + '/"
+    },
+    getfile: function (dependency, list) {
+      var re = /bower_components/gi
+      var elements = listOfElements.split('\n')
+      for (var i = 0; i < elements.length; ++i) {
+        if (elements[i].indexOf('/' + dependency + '.html') !== -1) {
+          return listOfElements.split('\n')[i].replace(re, '..')
+        }
       }
-    }
     return false
   }
+  })
+  var 
 </script>
