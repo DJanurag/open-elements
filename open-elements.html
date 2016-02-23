@@ -41,12 +41,12 @@
     },
     _docsSrc: function (docsFor, listOfElements) {
       return 'data:text/html;charset=utf-8,' + encodeURIComponent(
-        '<base href="/bower_components/' + docsFor + '/">\n' +
+        '<base href="https://open-elements.org/bower_components/' + docsFor + '/">\n' +
         '<link rel="import" href="../iron-component-page/iron-component-page.html">\n' +
-        '<iron-component-page base="/bower_components/' + docsFor + '/" src="' + getfile(docsFor, listOfElements) + '"></iron-component-page>'
+        '<iron-component-page base="https://open-elements.org/bower_components/' + docsFor + '/" src="' + getfile(docsFor, listOfElements) + '"></iron-component-page>'
       )
     }
-  })
+  }
   var getfile = function (dependency, listOfElements) {
     var re = /bower_components/gi
     var elements = listOfElements.split('\n')
