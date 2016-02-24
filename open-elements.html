@@ -10,7 +10,7 @@
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <paper-filter show-numbers="true" min="2" data="{{data}}" by="group" output="{{output}}"></paper-filter>
     <template is="dom-repeat" items="{{output}}" >
-      <a href="{{item.folder}}">{{item.name}}</a>
+      {{item.name}} <a href="{{item.folder}}">docs</a> <a href="{{item.test}}">docs</a> 
     </template>
   </template>
 </dom-module>
@@ -31,7 +31,8 @@
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace(".html",""),
-            folder: '/'+path+'/'+folder
+            folder: '/'+path+'/'+folder,
+            test: '/'+path+'/'+folder+'/test/',
           })
         }
       }
