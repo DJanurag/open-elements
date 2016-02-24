@@ -10,17 +10,8 @@
   <template>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <paper-filter show-numbers="true" min="2" data="{{data}}" by="group" output="{{output}}"></paper-filter>
-    <select value="{{docsFor::input}}">
-      <option value="false">show documentation</option>
-      <template is="dom-repeat" items="{{output}}" >
-        <option>{{item.name}}</option>
-      </template>
-    </select>
     <template is="dom-repeat" items="{{output}}" >
-      {{item.name}}
-    </template>
-    <template is="dom-if" if="{{docsFor}}" >
-      <iron-component-page base="{{_docsBase(docsFor)}}" src="{{getfile(docsFor, list)}}"></iron-component-page>
+      <a href="{{item.folder}}">{{item.name}}</a>
     </template>
   </template>
 </dom-module>
@@ -36,9 +27,13 @@
       for (var i = 0; i < elements.length; ++i) {
         var path = elements[i].split('/')
         var file = path.pop()
-        var folder =  path.pop()
+        var folder = path.join('/')
         if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
-          output.push({group:file.slice(0, file.indexOf("-")), name: file.replace(".html","")})
+          output.push({
+            group:file.slice(0, file.indexOf("-")), 
+            name: file.replace(".html",""),
+            folder: path.join('/')+folder
+          })
         }
       }
       return output
