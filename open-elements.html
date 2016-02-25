@@ -14,7 +14,7 @@
     <template is="dom-repeat" items="{{output}}" >
       {{item.name}} <a href="{{item.folder}}">docs</a> 
       <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-        <a href="{{item.test}}">test</a>
+        <a href="{{item.test}}">test</a><a href=""
       </template>
       <br /> 
     </template>
@@ -40,9 +40,10 @@
         if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
           output.push({
             group:file.slice(0, file.indexOf("-")), 
-            name: file.replace(".html",""),
+            name: folder,
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
+            file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
           })
         }
       }
