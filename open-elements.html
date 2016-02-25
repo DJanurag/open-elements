@@ -8,9 +8,15 @@
 <dom-module id="open-elements">
   <template>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
+    <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
+    
     <paper-filter show-numbers="true" min="2" data="{{data}}" by="group" output="{{output}}"></paper-filter>
     <template is="dom-repeat" items="{{output}}" >
-      {{item.name}} <a href="{{item.folder}}">docs</a> <a href="{{item.test}}">test</a> <br> 
+      {{item.name}} <a href="{{item.folder}}">docs</a> 
+      <template is="dom-if" if="{{hasTest(item.folder, tests)}}">
+        <a href="{{item.test}}">test</a>
+      </template>
+      <br /> 
     </template>
     <a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html" >Fork me I'm yours</a>
   </template>
@@ -38,6 +44,9 @@
         }
       }
       return output
+    },
+    hasTest: function(path, tests) {
+      return -1 !== tests.indexOf(path)
     }
   })
 </script>
