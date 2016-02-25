@@ -13,7 +13,7 @@
     <paper-filter show-numbers="true" min="2" data="{{data}}" by="group" output="{{output}}"></paper-filter>
     <template is="dom-repeat" items="{{output}}" >
       {{item.name}} <a href="{{item.folder}}">docs</a> 
-      <template is="dom-if" if="{{hasTest(item.folder, tests)}}">
+      <template is="dom-if" if="{{hasTest(item.name, tests)}}">
         <a href="{{item.test}}">test</a>
       </template>
       <br /> 
