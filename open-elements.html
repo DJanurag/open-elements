@@ -11,7 +11,7 @@
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     
-    <paper-filter show-numbers="true" min="3" data="{{data}}" by="group" output="{{output}}"></paper-filter>
+    <paper-filter show-numbers="true" min="3" data="{{data}}" by="level,group" output="{{output}}"></paper-filter>
     <template is="dom-repeat" items="{{output}}" >
       {{item.name}} <a href="{{item.folder}}">docs</a> 
       <a href="{{item.file}}">&lt;/&gt;</a>
@@ -54,8 +54,13 @@
         var path = elements[i].split('/')
         var file = path.pop()
         var folder = path.pop()
+        var level = "top"
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
+          if (file === folder + ".html") {
+            level = "sub"
+          }
           output.push({
+            level: level
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
             bower: folder,
