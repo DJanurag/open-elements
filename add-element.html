@@ -1,0 +1,45 @@
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../mediator-data/mediator-data.html">
+
+<!--
+`<survey-input on-add-badge="addSurvey"></survey-input>`
+-->
+<dom-module id="add-element">
+  <template>
+    <paper-fab on-tap="add" icon="add" elevation="4" style="background: red;color: #FFF; position: fixed; right: 30px; bottom: 30px;">Add</paper-fab>
+    <paper-dialog modal style="width:350px; height: 200px;">
+      <paper-textarea value="{{element}}" label="Tell me about the element"></paper-textarea>
+      <div class="buttons">
+        <paper-button dialog-confirm on-tap="_add" style="background: #FF5722;color: #FFF;" raised on-tap="toggleView">Add</paper-button>
+        <paper-button dialog-dismiss>Cancel</paper-button>
+      </div>
+    </paper-dialog>
+    <mediator-data location="https://open-elements.firebaseio.com/add-this/" folder="add" as-array="{{elements}}"></mediator-data>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: 'add-element',
+  _checkAdd: function(e) {
+    if (e.keyCode === 13) {
+      this._add()
+    }
+  },
+  _add: function() {
+    if (this.element) {
+      this.elements.push(this.element)
+      this.element = null
+      this.$$('paper-dialog').close()
+    }
+  },
+  add: function() {
+    this.$$('paper-dialog').open()
+  }
+});
+</script>
