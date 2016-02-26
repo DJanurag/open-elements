@@ -36,7 +36,11 @@ Polymer({
   },
   _add: function() {
     if (this.element) {
-      this.elements.push(this.element)
+      if (this.element) {
+        this.elements.push(this.element)
+      } else {
+        this.elements = [this.element]
+      }
       this.element = null
       this.$$('paper-dialog').close()
     }
