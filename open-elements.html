@@ -50,7 +50,7 @@
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
           output.push({
             group:file.slice(0, file.indexOf("-")), 
-            name: folder,
+            name: file.replace('.html',''),
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
             file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
