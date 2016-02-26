@@ -20,7 +20,7 @@
         <paper-button dialog-dismiss>Cancel</paper-button>
       </div>
     </paper-dialog>
-    <mediator-data location="https://open-elements.firebaseio.com/add-this/" folder="add" as-array="{{elements}}"></mediator-data>
+    <mediator-data id="e" location="https://open-elements.firebaseio.com/add-this/" folder="add" as-array="{{elements}}"></mediator-data>
   </template>
 </dom-module>
 <script>
@@ -36,11 +36,7 @@ Polymer({
   },
   _add: function() {
     if (this.element) {
-      if (this.elements) {
-        this.elements.push(this.element)
-      } else {
-        this.elements = [this.element]
-      }
+      this.$.e.push(this.element)
       this.element = null
       this.$$('paper-dialog').close()
     }
