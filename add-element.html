@@ -26,6 +26,9 @@
 <script>
 Polymer({
   is: 'add-element',
+  properties: {
+    elements: Array
+  }, 
   _checkAdd: function(e) {
     if (e.keyCode === 13) {
       this._add()
