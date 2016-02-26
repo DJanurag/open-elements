@@ -33,12 +33,21 @@
     },
     getData: function(list) {
       var output = []
+      var isAnElement= []
       var elements = list.split('\n')
       for (var i = 0; i < elements.length; ++i) {
         var path = elements[i].split('/')
         var file = path.pop()
         var folder = path.pop()
         if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
+          isAnElement.push(folder)
+        }
+      }
+      for (var i = 0; i < elements.length; ++i) {
+        var path = elements[i].split('/')
+        var file = path.pop()
+        var folder = path.pop()
+        if (isAnElement.indexOf(folder) !== -1 ) {
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: folder,
@@ -48,6 +57,7 @@
           })
         }
       }
+      
       return output
     },
     hasTest: function(path, tests) {
