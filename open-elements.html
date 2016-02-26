@@ -47,7 +47,7 @@
         var path = elements[i].split('/')
         var file = path.pop()
         var folder = path.pop()
-        if (isAnElement.indexOf(folder) !== -1 ) {
+        if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: folder,
