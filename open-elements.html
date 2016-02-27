@@ -9,6 +9,7 @@
 <dom-module id="open-elements">
   <template>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
+    <iron-ajax auto url="/imports" handle-as="text" last-response="{{imorts}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     
     <paper-filter show-numbers="true" min="3" data="{{data}}" by="level,group" output="{{output}}"></paper-filter>
@@ -38,10 +39,27 @@
     properties: {
       data: {computed:'getData(list)'},
     },
-    getData: function(list) {
+    getData: function(list, imports) {
       var output = []
       var isAnElement= []
       var elements = list.split('\n')
+      var importsList = imports.split('\n')
+      
+      function countImports (file) {
+        var usedBy = 0
+        var users = 0
+        
+        for (var ic = 0; ic < importsList.length; ++ic) {
+          var line = importsList[ic].split(':rel="import" href="../')
+          if (line[0].indexOf(file) !== -1) {
+            users++
+          } else if (line[1].indexOf(file) !== -1) {
+            usedBy++
+          }
+        }
+        return {users: users, usedBy: usedBy}
+      }
+      
       for (var i = 0; i < elements.length; ++i) {
         var path = elements[i].split('/')
         var file = path.pop()
@@ -50,20 +68,17 @@
           isAnElement.push(folder)
         }
       }
+      
       for (var i = 0; i < elements.length; ++i) {
         var path = elements[i].split('/')
         var file = path.pop()
         var folder = path.pop()
-        var level = "top"
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
-          if (file === folder + ".html") {
-            level = "sub"
-          }
           output.push({
-            level: level,
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
             bower: folder,
+            imports: countImports(folder+'/'+file)
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
             file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
