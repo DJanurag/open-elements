@@ -51,10 +51,12 @@
         
         for (var ic = 0; ic < importsList.length; ++ic) {
           var line = importsList[ic].split(':rel="import" href="../')
-          if (line[0].indexOf(file) !== -1) {
-            users++
-          } else if (line[1].indexOf(file) !== -1) {
-            usedBy++
+          if (line.length === 2) {
+            if (line[0].indexOf(file) !== -1) {
+              users++
+            } else if (line[1].indexOf(file) !== -1) {
+              usedBy++
+            }
           }
         }
         return {users: users, usedBy: usedBy}
