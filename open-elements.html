@@ -13,7 +13,7 @@
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     
     <paper-filter show-numbers="true" min="3" data="{{data}}" by="group" output="{{output}}"></paper-filter>
-    <template is="dom-repeat" items="{{output}}" >
+    <template is="dom-repeat" items="{{output}}">
       {{item.name}} <a href="{{item.folder}}">docs</a> 
       <a href="{{item.file}}">&lt;/&gt;</a>
       <template is="dom-if" if="{{hasTest(item.name, tests)}}">
@@ -23,15 +23,11 @@
       imports {{item.imports.users}}
       <br /> 
     </template>
-    <p>
-      <a href="https://open-elements.org/bower_components/polymer/" >Polymer Docs</a>
-    </p>
-    <p>
-      <a href="https://open-elements.org/bower_components/pair-production/demo.html" >Make an Element</a>
-    </p>
-    <p>
-      <a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html" >Fork me I'm yours</a>
-    </p>
+    
+    <p><a href="https://open-elements.org/bower_components/polymer/" >Polymer Docs</a></p>
+    <p><a href="https://open-elements.org/bower_components/pair-production/demo.html" >Make an Element</a></p>
+    <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html" >Fork me I'm yours</a></p>
+    
     <add-element></add-element>
   </template>
 </dom-module>
