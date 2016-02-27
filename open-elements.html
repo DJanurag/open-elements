@@ -19,14 +19,18 @@
       <template is="dom-if" if="{{hasTest(item.name, tests)}}">
         <a href="{{item.test}}">test</a>
       </template>
-      used by {{item.imports.usedBy}},
-      imports {{item.imports.users}}
+      <template is="dom-if" if="{{item.imports.usedBy.length}}">
+        used by {{item.imports.usedBy.length}},
+      </template>
+      <template is="dom-if" if="{{item.imports.users.length}}">
+        imports {{item.imports.users.length}}
+      </template>
       <br /> 
     </template>
     
-    <p><a href="https://open-elements.org/bower_components/polymer/" >Polymer Docs</a></p>
-    <p><a href="https://open-elements.org/bower_components/pair-production/demo.html" >Make an Element</a></p>
-    <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html" >Fork me I'm yours</a></p>
+    <p><a href="https://open-elements.org/bower_components/polymer/">Polymer Docs</a></p>
+    <p><a href="https://open-elements.org/bower_components/pair-production/demo.html">Make an Element</a></p>
+    <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
     
     <add-element></add-element>
   </template>
@@ -44,16 +48,16 @@
       var importsList = imports.split('\n')
       
       function countImports (file) {
-        var usedBy = 0
-        var users = 0
+        var usedBy = []
+        var users = []
         
         for (var ic = 0; ic < importsList.length; ++ic) {
           var line = importsList[ic].split(':rel="import" href="../')
           if (line.length === 2) {
             if (line[0].indexOf(file) !== -1) {
-              users++
+              users.push(line)
             } else if (line[1].indexOf(file) !== -1) {
-              usedBy++
+              usedBy.push(line)
             }
           }
         }
