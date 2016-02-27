@@ -19,8 +19,8 @@
       <template is="dom-if" if="{{hasTest(item.name, tests)}}">
         <a href="{{item.test}}">test</a>
       </template>
-      used by {{item.imports.usedBy}} elements,
-      users {{item.imports.usedBy}} elements
+      used by {{item.imports.usedBy}},
+      imports {{item.imports.users}}
       <br /> 
     </template>
     <p>
