@@ -100,7 +100,7 @@
       return -1 !== tests.indexOf(path)
     },
     title: function(title) {
-      return title.join("\n").replace("bower_components/","")
+      return title.join("\n").replace(new RegExp("bower_components/", 'g'),"")
     }
   })
 </script>
