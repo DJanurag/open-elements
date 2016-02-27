@@ -20,10 +20,12 @@
         <a href="{{item.test}}">test</a>
       </template>
       <template is="dom-if" if="{{item.imports.usedBy.length}}">
-        used by {{item.imports.usedBy.length}},
+        <a title="{{item.imports.usedBy}}">
+          used by {{item.imports.usedBy.length}},
+        </a>
       </template>
       <template is="dom-if" if="{{item.imports.users.length}}">
-        <a title="item.imports.users">
+        <a title="{{item.imports.users}}">
           imports {{item.imports.users.length}}
         </a>
       </template>
