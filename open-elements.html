@@ -14,7 +14,7 @@
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     
-    <paper-filter show-numbers="true" min="5" data="{{data}}" by="group" output="{{output}}"></paper-filter>
+    <paper-filter show-numbers="true" min="5" data="{{objectToArray(data)}}" by="group" output="{{output}}"></paper-filter>
     
       <table width="100%" style="text-align: center">
         <thead>
@@ -141,6 +141,16 @@
         }
         return 0
       }
+    },
+    objectToArray: function (data) {
+      var output = []
+      if (data) {
+        var keys = Object.keys(data)
+        for (var i = 0; i < keys.length; i++) {
+          output.push(data[keys[i]])
+        }
+      }
+      return output
     }
   })
 </script>
