@@ -65,14 +65,13 @@
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
     
     <add-element></add-element>
-    <pouch-db name="list of elemennts" data="{{remoteData}}" saved-data="{{data}}"></pouch-db>
   </template>
 </dom-module>
 <script>
   Polymer({
     is: "open-elements",
     properties: {
-      remoteData: {computed:'getRemoteData(list, imports, gitList)'}
+      data: {computed:'getRemoteData(list, imports, gitList)'}
     },
     getRemoteData: function(list, imports, gitList) {
       var output = []
