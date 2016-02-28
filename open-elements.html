@@ -54,11 +54,7 @@
                   </a>
                 </template>
               </td>
-              <td>
-                <template is="dom-if" if="{{item.gitUser}}">
-                  {{item.gitUser}}
-                </template>
-              </td>
+              <td>{{item.gitUser}}</td>
             </tr> 
           </template>
         </tbody>
@@ -119,12 +115,13 @@
         var path = elements[i].split('/')
         var file = path.pop()
         var folder = path.pop()
-        if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
+        var fromGitUser = gitUser(folder)
+        if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
             bower: folder,
-            gitUser: gitUser(folder),
+            gitUser: fromGitUser,
             imports: countImports(folder+'/'+file),
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
