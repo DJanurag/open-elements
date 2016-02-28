@@ -15,7 +15,7 @@
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
-    <paper-filter show-numbers="true" min="5" data="{{objectToArray(data)}}" by="group" output="{{output}}"></paper-filter>
+    <paper-filter show-numbers="true" min="5" data="{{objectToArray(data)}}" by="gitUser,group" output="{{output}}"></paper-filter>
     
       <table width="100%" style="text-align: center">
         <thead>
