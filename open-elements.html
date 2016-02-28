@@ -124,7 +124,7 @@
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
             bower: folder,
-            gitUser: gitUser(folder)
+            gitUser: gitUser(folder),
             imports: countImports(folder+'/'+file),
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
