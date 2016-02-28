@@ -116,12 +116,13 @@
         var folder = path.pop()
         var fromGitUser = gitUser(folder)
         var fromGitGourp
-        if (fromGitUser.length > 10) {
-          fromGitGourp = fromGitUser.slice(0,7) + '...'
-        } else {
-          fromGitGourp = fromGitUser
-        }
+
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
+          if (fromGitUser.length > 10) {
+            fromGitGourp = fromGitUser.slice(0,7) + '...'
+          } else {
+            fromGitGourp = fromGitUser
+          }
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
