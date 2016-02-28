@@ -13,6 +13,7 @@
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
+    <iron-ajax auto url="/gitList" handle-as="text" last-response="{{_gitList}}"></iron-ajax>
     
     <paper-filter show-numbers="true" min="5" data="{{objectToArray(data)}}" by="group" output="{{output}}"></paper-filter>
     
@@ -69,14 +70,21 @@
   Polymer({
     is: "open-elements",
     properties: {
-      remoteData: {computed:'getRemoteData(list, imports)'}
+      remoteData: {computed:'getRemoteData(list, imports, gitList, tests)'}
     },
-    getRemoteData: function(list, imports) {
+    getRemoteData: function(list, imports, gitList) {
       var output = []
       var isAnElement= []
       var elements = list.split('\n')
       var importsList = imports.split('\n')
-      
+      function gitUser(bowerName) { 
+        var re_gitUser = new RegExp('([^/]*)(?:/'+bowerName+'\.git)','gi')
+        var found_gitUser = re_repo.exec(gitList)
+          
+        if (found_gitUser) {
+          return found_gitUser[1]
+        }
+      }
       function countImports (file) {
         var usedBy = []
         var users = []
@@ -117,6 +125,7 @@
           })
         }
       }
+      
       return output
     },
     hasTest: function(path, tests) {
