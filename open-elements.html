@@ -61,20 +61,14 @@
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
     
     <add-element></add-element>
-    <pouch-db name="list of elemennts" data="{{pdb}}"></pouch-db>
+    <pouch-db name="list of elemennts" data="{{remoteData}}" savedData="{{data}}"></pouch-db>
   </template>
 </dom-module>
 <script>
   Polymer({
     is: "open-elements",
     properties: {
-      remoteData: {computed:'getRemoteData(list, imports)'},
-      data: {computed:'getData(remoteData)'}
-    },
-    getData: function(remoteData) {
-      // add pdb changes
-      this.pdb = remoteData
-      return remoteData
+      remoteData: {computed:'getRemoteData(list, imports)'}
     },
     getRemoteData: function(list, imports) {
       var output = []
