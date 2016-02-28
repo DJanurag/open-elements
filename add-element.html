@@ -39,7 +39,6 @@ Polymer({
   _add: function() {
     if (this._description) {
       this.$.e.push(this._description)
-      this.element = null
       this.$$('paper-dialog').close()
     }
   },
