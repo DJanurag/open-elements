@@ -69,12 +69,11 @@
     is: "open-elements",
     properties: {
       remoteData: {computed:'getRemoteData(list, imports)'},
-      data: {computed:'getData(remoteData)'},
-      pdb:{value:{}}
+      data: {computed:'getData(remoteData)'}
     },
     getData: function(remoteData) {
       // add pdb changes
-      // this.pdb = output
+      this.pdb = remoteData
       return remoteData
     },
     getRemoteData: function(list, imports) {
