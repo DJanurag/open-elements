@@ -125,7 +125,12 @@
     },
     sort: function(a,b) {
       if (a && b) {
-        return a.imports.usedBy.length =< b.imports.usedBy.length
+        if (a.imports.usedBy.length !== b.imports.usedBy.length) {
+          return a.imports.usedBy.length < b.imports.usedBy.length
+        } else if (a.name !== b.name) {
+          return a.name < b.name
+        } 
+        
       }
     }
   })
