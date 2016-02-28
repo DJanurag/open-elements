@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody>
-          <template is="dom-repeat" items="{{output}}">
+          <template is="dom-repeat" items="{{output}}" sort="sort">
             <tr>
               <td>{{item.name}}</td>
               <td><a href="{{item.folder}}">docs</a></td>
@@ -37,14 +37,14 @@
                   <a href="{{item.test}}">test</a>
                 </template>
               </td>
-              <td>
+              <td title="{{title(item.imports.usedBy)}}">
                 <template is="dom-if" if="{{item.imports.usedBy.length}}">
                   <a title="{{title(item.imports.usedBy)}}">
-                    {{item.imports.usedBy.length}},
+                    {{item.imports.usedBy.length}}
                   </a>
                 </template>
               </td>
-              <td>
+              <td title="{{title(item.imports.users)}}">
                 <template is="dom-if" if="{{item.imports.users.length}}">
                   <a title="{{title(item.imports.users)}}">
                     {{item.imports.users.length}}
@@ -125,6 +125,11 @@
     },
     title: function(title) {
       return title.join("\n").replace(new RegExp("bower_components/", 'g'),"")
-    }
+    },
+    sort: function(a,b) {
+      if (a && b) {
+        return a.imports.usedBy.length > b.imports.usedBy.length
+      }
+    },
   })
 </script>
