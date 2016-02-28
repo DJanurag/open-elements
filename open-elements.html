@@ -125,12 +125,21 @@
     },
     sort: function(a,b) {
       if (a && b) {
-        if (a.imports.usedBy.length !== b.imports.usedBy.length) {
-          return a.imports.usedBy.length < b.imports.usedBy.length
-        } else if (a.name !== b.name) {
-          return a.name < b.name
-        } 
+        if (a.imports.usedBy.length < b.imports.usedBy.length) {
+          return -1
+        }
+        if (a.imports.usedBy.length > b.imports.usedBy.length) {
+          return 1
+        }
         
+        if (a.name  < b.name ) {
+          return -1
+        }
+        if (a.name > b.name) {
+          return 1
+        }
+        
+        return 0
       }
     }
   })
