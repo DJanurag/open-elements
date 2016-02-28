@@ -70,6 +70,7 @@
     properties: {
       remoteData: {computed:'getRemoteData(list, imports)', value: []},
       data: {computed:'getData(pdb, remoteData)'},
+      pdb:{value:{}}
     },
     getData: function(remoteData) {
       var output = []
