@@ -1,4 +1,4 @@
-
+<link rel="import" href="../pair-production/input-save.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-input/paper-input.html">
@@ -13,7 +13,7 @@
 <dom-module id="add-element">
   <template>
     <paper-fab on-tap="add" icon="add" elevation="4" style="background: red;color: #FFF; position: fixed; right: 30px; bottom: 30px;">Add</paper-fab>
-    <paper-dialog modal style="width:350px; height: 200px;">
+    <paper-dialog>
       <input-save path="description" markdown textarea value="{{_description}}" label="Tell me about the element (markdown)"></input-save>
       <paper-input value="{{url}}" label="url of repo"></paper-input>
       <div class="buttons">
