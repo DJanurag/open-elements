@@ -13,7 +13,7 @@
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
-    <iron-ajax auto url="/gitList" handle-as="text" last-response="{{_gitList}}"></iron-ajax>
+    <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
     <paper-filter show-numbers="true" min="5" data="{{objectToArray(data)}}" by="group" output="{{output}}"></paper-filter>
     
@@ -70,7 +70,7 @@
   Polymer({
     is: "open-elements",
     properties: {
-      remoteData: {computed:'getRemoteData(list, imports, gitList, tests)'}
+      remoteData: {computed:'getRemoteData(list, imports, gitList)'}
     },
     getRemoteData: function(list, imports, gitList) {
       var output = []
