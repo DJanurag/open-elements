@@ -84,11 +84,11 @@
       var elements = list.split('\n')
       var importsList = imports.split('\n')
       function gitUser(bowerName) { 
-        var re_gitUser = new RegExp('([^/]*)(?:/'+bowerName+'\.git)','gi')
-        var found_gitUser = re_repo.exec(gitList)
+        var re = new RegExp('([^/]*)(?:/'+bowerName+'\.git)','gi')
+        var found = re.exec(gitList)
           
-        if (found_gitUser) {
-          return found_gitUser[1]
+        if (found) {
+          return found[1]
         }
       }
       function countImports (file) {
