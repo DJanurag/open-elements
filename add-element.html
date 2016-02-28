@@ -14,9 +14,11 @@
   <template>
     <paper-fab on-tap="add" icon="add" elevation="4" style="background: red;color: #FFF; position: fixed; right: 30px; bottom: 30px;">Add</paper-fab>
     <paper-dialog modal style="width:350px; height: 200px;">
-      <paper-textarea value="{{element}}" label="Tell me about the element"></paper-textarea>
+      <input-save path="description" markdown textarea value="{{_description}}" label="Tell me about the element (markdown)"></input-save>
+      <paper-input value="{{url}}" label="url of repo"></paper-input>
       <div class="buttons">
-        <paper-button dialog-confirm on-tap="_add" style="background: #FF5722;color: #FFF;" raised on-tap="toggleView">Add</paper-button>
+        <a href="/bower_components/pair-production/demo.html"><paper-button>help you make it?</paper-button></a>
+        <paper-button dialog-confirm on-tap="_add" raised on-tap="toggleView">Add</paper-button>
         <paper-button dialog-dismiss>Cancel</paper-button>
       </div>
     </paper-dialog>
@@ -35,8 +37,8 @@ Polymer({
     }
   },
   _add: function() {
-    if (this.element) {
-      this.$.e.push(this.element)
+    if (this._description) {
+      this.$.e.push(this._description)
       this.element = null
       this.$$('paper-dialog').close()
     }
