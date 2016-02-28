@@ -71,7 +71,7 @@
       remoteData: {computed:'getRemoteData(list, imports)', value: []},
       data: {computed:'getData(pdb, remoteData)'},
     },
-    getData: function(pdb, remoteData) {
+    getData: function(remoteData) {
       var output = []
       output = remoteData
       // add pdb changes
