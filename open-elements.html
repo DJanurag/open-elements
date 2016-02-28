@@ -91,7 +91,6 @@
         }
         return {users: users, usedBy: usedBy}
       }
-      
       for (var i = 0; i < elements.length; ++i) {
         var path = elements[i].split('/')
         var file = path.pop()
@@ -100,7 +99,6 @@
           isAnElement.push(folder)
         }
       }
-      
       for (var i = 0; i < elements.length; ++i) {
         var path = elements[i].split('/')
         var file = path.pop()
@@ -117,7 +115,6 @@
           })
         }
       }
-      
       return output
     },
     hasTest: function(path, tests) {
@@ -130,6 +127,6 @@
       if (a && b) {
         return a.imports.usedBy.length < b.imports.usedBy.length
       }
-    },
+    }
   })
 </script>
