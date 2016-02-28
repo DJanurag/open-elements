@@ -54,7 +54,11 @@
                   </a>
                 </template>
               </td>
-              <td>{{item.gitUser}}:{{item._gitUser}}</td>
+              <td>
+                <a href="{{item.gitLink}}">
+                  {{item.gitUser}}
+                </a>
+              </td>
             </tr> 
           </template>
         </tbody>
@@ -128,6 +132,7 @@
             name: file.replace('.html',''),
             bower: folder,
             gitUser: fromGitUser,
+            gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
             gitGourp: fromGitGourp,
             imports: countImports(folder+'/'+file),
             folder: '/'+path+'/'+folder,
