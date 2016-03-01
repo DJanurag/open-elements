@@ -33,7 +33,11 @@
           <template is="dom-repeat" items="{{output}}" sort="sort">
             <tr>
               <td>{{item.name}}</td>
-              <td><a href="{{item.folder}}">docs</a></td>
+              <td>
+                <template is="dom-if" if="{{item.docs}}">
+                  <a href="{{item.folder}}">docs</a>
+                </template>
+              </td>
               <td><a href="{{item.file}}">&lt;/&gt;</a></td>
               <td>
                 <template is="dom-if" if="{{hasTest(item.name, tests)}}">
@@ -120,13 +124,15 @@
         var folder = path.pop()
         var fromGitUser = gitUser(folder)
         var fromGitGourp
+        var docs = false
 
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           if (fromGitUser.length > 10) {
-            fromGitGourp = fromGitUser.slice(0,7) + '...'
+            fromGitGourp = fromGitUser.slice(0,9) + '…'
           } else {
             fromGitGourp = fromGitUser
           }
+          
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
@@ -135,6 +141,7 @@
             gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
             gitGourp: fromGitGourp,
             imports: countImports(folder+'/'+file),
+            docs: docs
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
             file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
