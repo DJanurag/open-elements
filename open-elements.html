@@ -132,7 +132,9 @@
           } else {
             fromGitGourp = fromGitUser
           }
-          
+          if (elements.indexOf(folder+"/"+folder+".html") || elements.indexOf(folder+"/index.html")) {
+            docs = true
+          }
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
