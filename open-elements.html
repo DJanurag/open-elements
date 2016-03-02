@@ -52,7 +52,7 @@
                   <a href="{{item.test}}" target="_blank">test</a>
                 </template>
                 <template is="dom-if" if="{{item.travis}}">
-                  {{item.travis}}
+                  <div inner-h-t-m-l={{item.travis}}></div>
                 </template>
               </td>
               <td title="{{title(item.imports.usedBy)}}">
