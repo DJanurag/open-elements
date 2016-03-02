@@ -27,6 +27,7 @@
             <th>Test</th>
             <th>Used By</th>
             <th>Imports</th>
+            <th>bower.json</th>
             <th>From</th>
           </tr>
         </thead>
@@ -49,6 +50,13 @@
                 <template is="dom-if" if="{{item.imports.usedBy.length}}">
                   <a title="{{title(item.imports.usedBy)}}">
                     {{item.imports.usedBy.length}}
+                  </a>
+                </template>
+              </td>
+              <td >
+                <template is="dom-if" if="{{item.bower}}">
+                  <a href="{{item.bower}}">
+                    json
                   </a>
                 </template>
               </td>
@@ -87,6 +95,14 @@
       var isAnElement= []
       var elements = list.split('\n')
       var importsList = imports.split('\n')
+      function bowerFile(bowerName) { 
+        var re = new RegExp('bower_components/'+bowerName+'/bower.json','gi')
+        var found = re.exec(gitList)
+          
+        if (found) {
+          return found[1]
+        }
+      }
       function gitUser(bowerName) { 
         var re = new RegExp('([^/]*)(?:/'+bowerName+'\.git)','gi')
         var found = re.exec(gitList)
@@ -126,6 +142,7 @@
         var fromGitUser = gitUser(folder)
         var fromGitGourp
         var docs = false
+        var bower = false
 
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           if (fromGitUser.length > 10) {
@@ -144,6 +161,7 @@
             gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
             gitGourp: fromGitGourp,
             imports: countImports(folder+'/'+file),
+            bower: bower,
             docs: docs,
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
