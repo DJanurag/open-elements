@@ -32,7 +32,7 @@
             <th>Code</th>
             <th>Test</th>
             <th>Used By</th>
-            <th>bower</th>
+            <th>Bower</th>
             <th>Imports</th>
             <th>From</th>
           </tr>
@@ -156,6 +156,9 @@
         var file = path.pop()
         var folder = path.pop()
         var fromGitUser = gitUser(folder)
+        if (fromGitUser === "polymerelements") {
+          fromGitUser = "PolymerElements"
+        }
         var fromGitGourp
         var docs = false
         
