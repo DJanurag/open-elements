@@ -51,6 +51,9 @@
                 <template is="dom-if" if="{{hasTest(item.name, tests)}}">
                   <a href="{{item.test}}" target="_blank">test</a>
                 </template>
+                <template is="dom-if" if="{{item.travis}}">
+                  {{item.travis}}
+                </template>
               </td>
               <td title="{{title(item.imports.usedBy)}}">
                 <template is="dom-if" if="{{item.imports.usedBy.length}}">
@@ -102,6 +105,13 @@
       var elements = list.split('\n')
       var importsList = imports.split('\n')
       var dataList = gitList.split('\n')
+      function travisBadge(bowerName) { 
+        if (dataList.indexOf('bower_components/'+bowerName+'/.travis.yml') !== -1) {
+          return '<img src="https://travis-ci.org/'+gitUser(bowerName)+'/'+bowerName+'.svg" title="travis" />'
+        } else {
+          return false
+        }
+      }
       function bowerFile(bowerName) { 
         if (dataList.indexOf('bower_components/'+bowerName+'/bower.json') !== -1) {
           return 'bower_components/'+bowerName+'/bower.json'
@@ -148,8 +158,7 @@
         var fromGitUser = gitUser(folder)
         var fromGitGourp
         var docs = false
-        var bowerLink = bowerFile(folder)
-
+        
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           if (fromGitUser.length > 10) {
             fromGitGourp = fromGitUser.slice(0,9) + '…'
@@ -163,11 +172,12 @@
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
             bower: folder,
+            travis: travisBadge(folder),
             gitUser: fromGitUser,
             gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
             gitGourp: fromGitGourp,
             imports: countImports(folder+'/'+file),
-            bowerLink: bowerLink,
+            bowerLink: bowerFile(folder),
             docs: docs,
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
