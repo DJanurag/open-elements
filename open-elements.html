@@ -98,7 +98,6 @@
       function bowerFile(bowerName) { 
         var re = new RegExp('bower_components/'+bowerName+'/bower.json','gi')
         var found = re.exec(gitList)
-          
         if (found) {
           return found[1]
         }
@@ -142,7 +141,7 @@
         var fromGitUser = gitUser(folder)
         var fromGitGourp
         var docs = false
-        var bower = false
+        var bower = bowerFile(folder)
 
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           if (fromGitUser.length > 10) {
