@@ -26,8 +26,8 @@
             <th>Code</th>
             <th>Test</th>
             <th>Used By</th>
-            <th>Imports</th>
             <th>bower.json</th>
+            <th>Imports</th>
             <th>From</th>
           </tr>
         </thead>
@@ -95,11 +95,10 @@
       var isAnElement= []
       var elements = list.split('\n')
       var importsList = imports.split('\n')
+      var dataList = gitList.split('\n')
       function bowerFile(bowerName) { 
-        var re = new RegExp('bower_components/'+bowerName+'/bower.json','gi')
-        var found = re.exec(gitList)
-        if (found) {
-          return found[1]
+        if (dataList.indexOf('bower_components/'+bowerName+'/bower.json')) {
+          return 'bower_components/'+bowerName+'/bower.json'
         }
       }
       function gitUser(bowerName) { 
@@ -141,7 +140,7 @@
         var fromGitUser = gitUser(folder)
         var fromGitGourp
         var docs = false
-        var bower = bowerFile(folder)
+        var bowerLink = bowerFile(folder)
 
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           if (fromGitUser.length > 10) {
@@ -160,7 +159,7 @@
             gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
             gitGourp: fromGitGourp,
             imports: countImports(folder+'/'+file),
-            bower: bower,
+            bowerLink: bowerLink,
             docs: docs,
             folder: '/'+path+'/'+folder,
             test: '/'+path+'/'+folder+'/test/',
