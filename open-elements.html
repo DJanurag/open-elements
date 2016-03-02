@@ -149,7 +149,7 @@
           } else {
             fromGitGourp = fromGitUser
           }
-          if (elements.indexOf(folder+"/"+folder+".html") || elements.indexOf(folder+"/index.html")) {
+          if (elements.indexOf(folder+"/"+folder+".html") !== -1 || elements.indexOf(folder+"/index.html") !== -1) {
             docs = true
           }
           output.push({
