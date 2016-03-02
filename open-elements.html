@@ -106,7 +106,7 @@
       var dataList = gitList.split('\n')
       function travisBadge(bowerName) { 
         if (dataList.indexOf('bower_components/'+bowerName+'/.travis.yml') !== -1) {
-          return '<img src="https://travis-ci.org/'+gitUser(bowerName)+'/'+bowerName+'.svg" title="travis" />'
+          return '<a href="https://travis-ci.org/'+gitUser(bowerName)+'/'+bowerName+'"><img src="https://travis-ci.org/'+gitUser(bowerName)+'/'+bowerName+'.svg" title="travis" /></a>'
         } else {
           return false
         }
