@@ -96,7 +96,7 @@
       var importsList = imports.split('\n')
       var dataList = gitList.split('\n')
       function bowerFile(bowerName) { 
-        if (dataList.indexOf('bower_components/'+bowerName+'/bower.json')) {
+        if (dataList.indexOf('bower_components/'+bowerName+'/bower.json') !== -1) {
           return 'bower_components/'+bowerName+'/bower.json'
         } else {
           return false
