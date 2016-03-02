@@ -10,6 +10,13 @@
 
 <dom-module id="open-elements">
   <template>
+    <style>
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+      tr:nth-child(even){background-color: #f2f2f2}
+    </style>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
@@ -17,7 +24,7 @@
     
     <paper-filter show-numbers="true" min="5" data="{{objectToArray(data)}}" by="gitGourp,group" output="{{output}}"></paper-filter>
     
-      <table width="100%" style="text-align: center">
+      <table width="100%">
         <thead>
           <tr>
             <th>Element</th>
@@ -36,38 +43,38 @@
               <td>{{item.name}}</td>
               <td>
                 <template is="dom-if" if="{{item.docs}}">
-                  <a href="{{item.folder}}">docs</a>
+                  <a href="{{item.folder}}" target="_blank">docs</a>
                 </template>
               </td>
-              <td><a href="{{item.file}}">&lt;/&gt;</a></td>
+              <td><a href="{{item.file}}" target="_blank">&lt;/&gt;</a></td>
               <td>
                 <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-                  <a href="{{item.test}}">test</a>
+                  <a href="{{item.test}}" target="_blank">test</a>
                 </template>
               </td>
               <td title="{{title(item.imports.usedBy)}}">
                 <template is="dom-if" if="{{item.imports.usedBy.length}}">
-                  <a title="{{title(item.imports.usedBy)}}">
+                  <a title="{{title(item.imports.usedBy)}}" target="_blank">
                     {{item.imports.usedBy.length}}
                   </a>
                 </template>
               </td>
               <td >
                 <template is="dom-if" if="{{item.bowerLink}}">
-                  <a href="{{item.bowerLink}}">
+                  <a href="{{item.bowerLink}}" target="_blank">
                     json
                   </a>
                 </template>
               </td>
               <td title="{{title(item.imports.users)}}">
                 <template is="dom-if" if="{{item.imports.users.length}}">
-                  <a title="{{title(item.imports.users)}}">
+                  <a title="{{title(item.imports.users)}}" target="_blank">
                     {{item.imports.users.length}}
                   </a>
                 </template>
               </td>
               <td>
-                <a href="{{item.gitLink}}">
+                <a href="{{item.gitLink}}" target="_blank">
                   {{item.gitUser}}
                 </a>
               </td>
