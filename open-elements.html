@@ -48,11 +48,19 @@
               <td><a href="{{item.file}}" target="_blank">&lt;/&gt;</a></td>
               <td>
                 <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-                  <a href="{{item.test}}" target="_blank">test</a>
+                  <a href="{{item.test}}" target="_blank">
+                    <template is="dom-if" if="{{item.travis}}">
+                      <div inner-h-t-m-l={{item.travis}}></div>
+                    </template>
+                    <template is="dom-if" if="{{!item.travis}}">
+                      test
+                    </template>
+                  </a>
                 </template>
                 <template is="dom-if" if="{{item.travis}}">
                   <div inner-h-t-m-l={{item.travis}}></div>
                 </template>
+                
               </td>
               <td title="{{title(item.imports.usedBy)}}">
                 <template is="dom-if" if="{{item.imports.usedBy.length}}">
@@ -104,9 +112,10 @@
       var elements = list.split('\n')
       var importsList = imports.split('\n')
       var dataList = gitList.split('\n')
-      function travisBadge(bowerName) { 
+      
+      function travisBadge(bowerName, fromGitUser) { 
         if (dataList.indexOf('bower_components/'+bowerName+'/.travis.yml') !== -1) {
-          return '<a href="https://travis-ci.org/'+gitUser(bowerName)+'/'+bowerName+'"><img src="https://travis-ci.org/'+gitUser(bowerName)+'/'+bowerName+'.svg" title="travis" /></a>'
+          return '<img src="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'.svg" title="travis" />' // <a href="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'"></a>'
         } else {
           return false
         }
@@ -174,7 +183,7 @@
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
             bower: folder,
-            travis: travisBadge(folder),
+            travis: travisBadge(folder, fromGitUser),
             gitUser: fromGitUser,
             gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
             gitGourp: fromGitGourp,
