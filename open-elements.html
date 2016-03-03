@@ -21,7 +21,7 @@
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
-    <paper-filter show-numbers="true" min="5" data="{{objectToArray(data)}}" by="gitGourp,group" output="{{output}}"></paper-filter>
+    <paper-filter show-numbers="true" min="5" data="{{objectToArray(shortlisted)}}" by="gitGourp,group" output="{{output}}"></paper-filter>
     
       <table width="100%">
         <thead>
@@ -92,7 +92,7 @@
     <p><a href="https://open-elements.org/bower_components/polymer/">Polymer Docs</a></p>
     <p><a href="https://open-elements.org/bower_components/pair-production/demo.html">making a element?</a></p>
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
-    
+    <short-list data="{{objectToArray(data)}}" output="{{shortlisted}}" list-by="name"></short-list>
     <add-element></add-element>
   </template>
 </dom-module>
