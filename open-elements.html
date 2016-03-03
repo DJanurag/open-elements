@@ -57,10 +57,6 @@
                     </template>
                   </a>
                 </template>
-                <template is="dom-if" if="{{item.travis}}">
-                  <div inner-h-t-m-l={{item.travis}}></div>
-                </template>
-                
               </td>
               <td title="{{title(item.imports.usedBy)}}">
                 <template is="dom-if" if="{{item.imports.usedBy.length}}">
