@@ -40,7 +40,12 @@
         <tbody>
           <template is="dom-repeat" items="{{output}}" sort="sort">
             <tr>
-              <td>{{item.name}}</td>
+              <td>
+                {{item.name}}
+                <template is="dom-if" if="{{!inShortlist(item.name, _shortlist)}}">
+                  <button title="add to shortlist" style="float:right" on-tap="shortlist">&#8801;</button>
+                </template>
+              </td>
               <td>
                 <template is="dom-if" if="{{item.docs}}">
                   <a href="{{item.folder}}" target="_blank">docs</a>
@@ -93,7 +98,7 @@
     <p><a href="https://open-elements.org/bower_components/polymer/">Polymer Docs</a></p>
     <p><a href="https://open-elements.org/bower_components/pair-production/demo.html">making a element?</a></p>
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
-    <short-list data="{{objectToArray(data)}}" output="{{shortlisted}}" list-by="name"></short-list>
+    <short-list value="{{_shortlist}}" data="{{objectToArray(data)}}" output="{{shortlisted}}" list-by="name"></short-list>
     <add-element></add-element>
   </template>
 </dom-module>
@@ -102,6 +107,13 @@
     is: "open-elements",
     properties: {
       data: {computed:'getRemoteData(list, imports, gitList)'}
+    },
+    inShortlist: function(element, shortlist) {
+      if (shortlist) {
+        return -1 !== shortlist.split(',').indexOf(element)
+      } else {
+        return false
+      }
     },
     getRemoteData: function(list, imports, gitList) {
       var output = []
@@ -201,6 +213,14 @@
     },
     title: function(title) {
       return title.join("\n").replace(new RegExp("bower_components/", 'g'),"")
+    },
+    shortlist: function (e) {
+      if (this._shortlist) {
+        this._shortlist = this._shortlist + "," +e.currentTarget.parentNode.innerText.split(' ')[0]
+      } else {
+        this._shortlist = e.currentTarget.parentNode.innerText.split(' ')[0]
+      }
+      
     },
     sort: function(a,b) {
       if (a && b) {
