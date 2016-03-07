@@ -1,0 +1,19 @@
+{
+  "name": "open-elements",
+  "version": "1.0.0",
+  "description": "# Open Elements\na list of polyer elements",
+  "main": "open-elements.html",
+  "keywords": [
+    "polymer",
+    "web-components"
+  ],
+  "dependencies": {
+    "iron-ajax": "PolymerElements/iron-ajax",
+    "paper-input": "PolymerElements/paper-input",
+    "lunr-js": "marcus7777/lunr-js",
+    "paper-filter": "HackITtoday/paper-filter",
+    "git-time": "marcus7777/git-time",
+    "short-list": "marcus7777/short-list",
+    "open-elements": "marcus7777/open-elements"
+  }
+}
