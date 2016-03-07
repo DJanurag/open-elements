@@ -3,6 +3,8 @@
 <link rel="import" href="../pouch-db/pouch-db.html">
 <link rel="import" href="../short-list/short-list.html">
 <link rel="import" href="../git-time/git-time.html">
+<link rel="import" href="../lunr-js/lunr-js.html">
+<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="add-element.html">
   
 <!-- 
@@ -23,6 +25,9 @@
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
+    <paper-input label=Search value={{search}}></paper-input>
+    <lunr-js data="{{output}}" search="{{search}}" output="{{_output}}" ></lunr-js>
+    
     <paper-filter show-numbers="true" min="5" data="{{shortlisted}}" by="gitGourp,group" output="{{output}}"></paper-filter>
     
       <table width="100%">
@@ -40,7 +45,7 @@
           </tr>
         </thead>
         <tbody>
-          <template is="dom-repeat" items="{{output}}" sort="sort">
+          <template is="dom-repeat" items="{{_output}}" sort="sort">
             <tr>
               <td>
                 {{item.name}}
