@@ -4,7 +4,9 @@
 <link rel="import" href="../short-list/short-list.html">
 <link rel="import" href="../lunr-js/lunr-js.html">
 <link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../git-time/git-time.html">
 <link rel="import" href="add-element.html">
+
   
 <!-- 
 `<open-elements></open-elements>` 
@@ -97,7 +99,7 @@
                 </a>
               </td>
               <td>
-                <git-time url="{{item.log}}"></git-time>
+                <git-time git-log-url="{{item.log}}"></git-time>
               </td>
             </tr> 
           </template>
