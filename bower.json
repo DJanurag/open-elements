@@ -11,9 +11,10 @@
     "iron-ajax": "PolymerElements/iron-ajax",
     "paper-input": "PolymerElements/paper-input",
     "lunr-js": "marcus7777/lunr-js",
-    "paper-filter": "HackITtoday/paper-filter",
+    "paper-filter": "Hi9Here/paper-filter",
     "git-time": "marcus7777/git-time",
     "short-list": "marcus7777/short-list",
-    "open-elements": "marcus7777/open-elements"
+    "open-elements": "marcus7777/open-elements",
+    "mediator-data": "marcus7777/mediator-data"
   }
 }
