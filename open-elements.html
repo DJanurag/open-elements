@@ -191,7 +191,7 @@
         var fromGitGourp
         var docs = false
         
-        if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
+        if (isAnElement.indexOf(folder) !== -1 && (file.indexOf("-") !== -1 || file.indexOf("polymer") !== -1) && fromGitUser) {
           if (fromGitUser.length > 10) {
             fromGitGourp = fromGitUser.slice(0,9) + '…'
           } else {
