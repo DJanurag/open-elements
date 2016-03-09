@@ -128,9 +128,24 @@
     },
     getRemoteData: function(list, imports, gitList) {
       var output = []
+      output.push({
+        group:"iron", 
+        name: "polymer",
+        bower: "polymer",
+        travis: travisBadge(folder, fromGitUser),
+        gitUser: "Polymer",
+        gitLink: "https://github.com/Polymer/polymer/polymer.html",
+        gitGourp: "Polymer",
+        imports: countImports("polymer/polymer.html"),
+        bowerLink: bowerFile("polymer"),
+        docs: docs,
+        folder: '/bower_components/polymer',
+        test: '/bower_components/polymer/test/',
+        log: '/bower_components/polymer/gitlog',
+        file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
+      })
       var isAnElement= []
       var elements = list.split('\n')
-      elements.push("bower_components/polymer/polymer.html")
       var importsList = imports.split('\n')
       var dataList = gitList.split('\n')
       
