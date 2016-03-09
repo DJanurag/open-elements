@@ -28,9 +28,9 @@
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
     <paper-input label=Search value={{search}}></paper-input>
-    <lunr-js data="{{output}}" search="{{search}}" output="{{_output}}" ></lunr-js>
+    <lunr-js data="{{shortlisted}}" search="{{search}}" output="{{output}}" ></lunr-js>
     
-    <paper-filter show-numbers="true" min="5" data="{{shortlisted}}" by="gitGourp,group" output="{{output}}"></paper-filter>
+    <paper-filter show-numbers="true" min="5" data="{{output}}" by="gitGourp,group" output="{{_output}}"></paper-filter>
     
       <table width="100%">
         <thead>
