@@ -126,23 +126,8 @@
         return false
       }
     },
-    getRemoteData: function(list, imports, gitList) {
+    getRemoteData: function(list, imports, gitList) { if (list && imports && gitList) {
       var output = []
-      output.push({
-        group:"iron", 
-        name: "polymer",
-        bower: "polymer",
-        travis: travisBadge(folder, fromGitUser),
-        gitUser: "Polymer",
-        gitLink: "https://github.com/Polymer/polymer/polymer.html",
-        gitGourp: "Polymer",
-        imports: countImports("polymer/polymer.html"),
-        docs: docs,
-        folder: '/bower_components/polymer',
-        test: '/bower_components/polymer/test/',
-        log: '/bower_components/polymer/gitlog',
-        file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
-      })
       var isAnElement= []
       var elements = list.split('\n')
       var importsList = imports.split('\n')
@@ -205,7 +190,7 @@
         var fromGitGourp
         var docs = false
         
-        if (isAnElement.indexOf(folder) !== -1 && (file.indexOf("-") !== -1 || file.indexOf("polymer") !== -1) && fromGitUser) {
+        if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           if (fromGitUser.length > 10) {
             fromGitGourp = fromGitUser.slice(0,9) + '…'
           } else {
@@ -232,9 +217,24 @@
           })
         }
       }
+      output.push({
+        group:"iron", 
+        name: "polymer",
+        bower: "polymer",
+        travis: travisBadge("polymer", "Polymer"),
+        gitUser: "Polymer",
+        gitLink: "https://github.com/Polymer/polymer/polymer.html",
+        gitGourp: "Polymer",
+        imports: countImports("polymer/polymer.html"),
+        docs: docs,
+        folder: '/bower_components/polymer',
+        test: '/bower_components/polymer/test/',
+        log: '/bower_components/polymer/gitlog',
+        file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
+      })
       
       return output
-    },
+    }},
     hasTest: function(path, tests) {
       return -1 !== tests.indexOf(path)
     },
