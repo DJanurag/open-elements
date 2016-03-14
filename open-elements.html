@@ -27,7 +27,7 @@
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
-    <paper-input label=Search value={{search}}></paper-input>
+    <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     <lunr-js data="{{shortlisted}}" search="{{search}}" output="{{output}}" ></lunr-js>
     
     <paper-filter show-numbers="true" min="5" data="{{output}}" by="gitGourp,group" output="{{_output}}"></paper-filter>
@@ -43,7 +43,7 @@
             <th>Bower</th>
             <th>Imports</th>
             <th>From</th>
-            <th>Time</th>
+            <th title="git-time">Time</th>
           </tr>
         </thead>
         <tbody>
@@ -100,7 +100,9 @@
                 </a>
               </td>
               <td>
-                <git-time git-log-url="{{item.log}}" title="{{item.gitTimeTitle}}" time="{{item.gitTime}}"></git-time>
+                <template is="dom-if" if="{{item.main}}">
+                  <git-time git-log-url="{{item.log}}" title="{{item.gitTimeTitle}}" time="{{item.gitTime}}"></git-time>
+                </template>
               </td>
             </tr> 
           </template>
@@ -189,7 +191,7 @@
         }
         var fromGitGourp
         var docs = false
-        
+        var main = false
         if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
           if (fromGitUser.length > 10) {
             fromGitGourp = fromGitUser.slice(0,9) + '…'
@@ -199,10 +201,14 @@
           if (elements.indexOf("bower_components/"+folder+"/"+folder+".html") !== -1 || elements.indexOf("bower_components/"+folder+"/index.html") !== -1) {
             docs = true
           }
+          if (folder === file.replace('.html','')) {
+            docs = true
+          }
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
             bower: folder,
+            main: main,
             travis: travisBadge(folder, fromGitUser),
             gitUser: fromGitUser,
             gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
