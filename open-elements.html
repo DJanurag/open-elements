@@ -1,4 +1,3 @@
-<link rel="import" href="../paper-filter/paper-filter.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../pouch-db/pouch-db.html">
 <link rel="import" href="../short-list/short-list.html">
@@ -28,9 +27,7 @@
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
-    <lunr-js data="{{shortlisted}}" search="{{search}}" output="{{output}}" ></lunr-js>
-    
-    <paper-filter show-numbers="true" min="5" data="{{output}}" by="gitGourp,group" output="{{_output}}"></paper-filter>
+    <lunr-js data="{{shortlisted}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     
       <table width="100%">
         <thead>
