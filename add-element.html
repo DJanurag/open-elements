@@ -8,14 +8,13 @@
 <link rel="import" href="../mediator-data/mediator-data.html">
 
 <!--
-`<survey-input on-add-badge="addSurvey"></survey-input>`
+`<add-element></add-element>`
 -->
 <dom-module id="add-element">
   <template>
     <paper-fab on-tap="add" icon="add" elevation="4" style="background: red;color: #FFF; position: fixed; right: 30px; bottom: 30px;">Add</paper-fab>
     <paper-dialog>
       <input-save path="description" markdown textarea value="{{_description}}" label="Tell me about the element (markdown)"></input-save>
-      <paper-input value="{{url}}" label="url of repo"></paper-input>
       <div class="buttons">
         <a href="/bower_components/pair-production/demo.html"><paper-button>help you make it?</paper-button></a>
         <paper-button dialog-confirm on-tap="_add" raised on-tap="toggleView">Add</paper-button>
