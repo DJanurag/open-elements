@@ -79,9 +79,11 @@
               </td>
               <td >
                 <template is="dom-if" if="{{item.bowerLink}}">
-                  <a href="{{item.bowerLink}}" target="_blank">
-                    json
-                  </a>
+                  <file-title href="{{item.bowerLink}}">
+                    <a href="{{item.bowerLink}}" target="_blank">
+                      json
+                    </a>
+                  </file-title>
                 </template>
               </td>
               <td title="{{title(item.imports.users)}}">
