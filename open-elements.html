@@ -116,6 +116,7 @@
 </dom-module>
 <script>
   Polymer({
+    lazyRegister: true,
     is: "open-elements",
     properties: {
       data: {computed:'getRemoteData(list, imports, gitList)'}
