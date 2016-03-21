@@ -48,6 +48,7 @@
             <tr>
               <td>
                 {{item.name}}
+                <br>{{getDis(item.bowerJson)}}
                 <template is="dom-if" if="{{!inShortlist(item.name, _shortlist)}}">
                   <button title="add to shortlist" style="float:right" on-tap="shortlist">&#8801;</button>
                 </template>
@@ -120,6 +121,14 @@
     is: "open-elements",
     properties: {
       data: {computed:'getRemoteData(list, imports, gitList)'}
+    },
+    getDis: function(json) {
+      var dis = JSON.parse(json)
+      if (dis.description) {
+        return dis.description
+      } else {
+        return ""
+      }
     },
     inShortlist: function(element, shortlist) {
       if (shortlist) {
@@ -217,7 +226,7 @@
             bowerLink: bowerFile(folder),
             docs: true,
             folder: '/'+path+'/'+folder,
-            test: '/bower_components/polymer/test/runner.html',
+            test: '/'+path+'/'+folder+'/test/',
             log: '/'+path+'/'+folder+'/gitlog',
             file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
           })
@@ -235,7 +244,7 @@
         imports: countImports("polymer/polymer.html"),
         docs: true,
         folder: '/bower_components/polymer',
-        test: '/bower_components/polymer/test/',
+        test: '/bower_components/polymer/test/runner.html',
         log: '/bower_components/polymer/gitlog',
         file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
       })
