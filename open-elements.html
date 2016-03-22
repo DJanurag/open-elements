@@ -48,7 +48,9 @@
             <tr>
               <td>
                 {{item.name}}
-                <br>{{getDis(item.bowerJson)}}
+                <template is="dom-if" if="{{item.bowerJson}}">
+                  <br><small>{{getDis(item.bowerJson)}}</small>
+                </template> 
                 <template is="dom-if" if="{{!inShortlist(item.name, _shortlist)}}">
                   <button title="add to shortlist" style="float:right" on-tap="shortlist">&#8801;</button>
                 </template>
