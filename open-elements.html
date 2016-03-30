@@ -27,7 +27,7 @@
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
-    <carbon-location route={{route}} use-hash-as-path></carbon-location>
+    <carbon-location route="{{route}}" use-hash-as-path></carbon-location>
     <carbon-route route="{{route}}" pattern="/:search" data="{{searchTail}}"></carbon-route>
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     <lunr-js no-stop-words data="{{shortlisted}}" search="{{search}}" output="{{_output}}" ></lunr-js>
