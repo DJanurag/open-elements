@@ -5,6 +5,8 @@
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../git-time/git-time.html">
 <link rel="import" href="../file-title/file-title.html">
+<link rel="import" href="../carbon-route/carbon-location.html">
+<link rel="import" href="../carbon-route/carbon-route.html">
 <link rel="import" href="add-element.html">
 
   
@@ -25,7 +27,8 @@
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
-    
+    <carbon-location route={{route}} use-hash-as-path></carbon-location>
+    <carbon-route route="{{route}}" pattern="/search" tail="{{search}}"></carbon-route>
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     <lunr-js no-stop-words data="{{shortlisted}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     
@@ -122,6 +125,15 @@
     is: "open-elements",
     properties: {
       data: {computed:'getRemoteData(list, imports, gitList)'}
+    },
+    ready: function() {
+      // TODO: Remove this async https://github.com/PolymerElements/carbon-route/issues/44
+      this.async(function() {
+      // If we do not have an initial URL, we redirect to /search
+        if (!this.route.path) {
+          this.set('route.path', '/search/');
+        }
+      },1);
     },
     getDis: function(json) {
       var dis = JSON.parse(json)
