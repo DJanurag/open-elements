@@ -16,6 +16,7 @@
     "short-list": "marcus7777/short-list",
     "file-title": "marcus7777/file-title",
     "open-elements": "marcus7777/open-elements",
-    "mediator-data": "marcus7777/mediator-data"
+    "mediator-data": "marcus7777/mediator-data",
+    "carbon-route": "PolymerElements/carbon-route#~0.8.4"
   }
 }
