@@ -122,7 +122,7 @@
       data: {computed:'getRemoteData(list, imports, gitList)'},
       searchTail: {observer:"searchTailUpdate"}
     },
-    ready: function() {
+    rem_ready: function() {
       // TODO: Remove this async https://github.com/PolymerElements/carbon-route/issues/44
       this.async(function() {
       // If we do not have an initial URL, we redirect to /
