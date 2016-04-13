@@ -29,7 +29,7 @@
     
     <iron-media-query query="(min-width: 1000px)" query-matches="{{big}}"></iron-media-query>
     <iron-media-query query="(min-width: 600px)" query-matches="{{medium}}"></iron-media-query>
-    <iron-media-query query="(min-width: 300px)" query-matches="{{small}}"></iron-media-query>
+    <iron-media-query query="(min-width: 500px)" query-matches="{{small}}"></iron-media-query>
     
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     <lunr-js no-stop-words data="{{shortlisted}}" search="{{search}}" output="{{_output}}" ></lunr-js>
@@ -40,8 +40,8 @@
             <th>Element</th>
             <th>Docs</th>
             <th>Code</th>
-            <th>Test</th>
             <template is="dom-if" if="{{small}}">
+              <th>Test</th>
               <th>Used By</th>
             </template>
             <template is="dom-if" if="{{medium}}">
@@ -72,19 +72,19 @@
                 </template>
               </td>
               <td><a href="{{item.file}}" target="_blank">&lt;/&gt;</a></td>
-              <td>
-                <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-                  <a href="{{item.test}}" target="_blank">
-                    <template is="dom-if" if="{{item.travis}}">
-                      <div inner-h-t-m-l={{item.travis}}></div>
-                    </template>
-                    <template is="dom-if" if="{{!item.travis}}">
-                      test
-                    </template>
-                  </a>
-                </template>
-              </td>
               <template is="dom-if" if="{{small}}">
+                <td>
+                  <template is="dom-if" if="{{hasTest(item.name, tests)}}">
+                    <a href="{{item.test}}" target="_blank">
+                      <template is="dom-if" if="{{item.travis}}">
+                        <div inner-h-t-m-l={{item.travis}}></div>
+                      </template>
+                      <template is="dom-if" if="{{!item.travis}}">
+                        test
+                      </template>
+                    </a>
+                  </template>
+                </td>
                 <td title="{{title(item.imports.usedBy)}}">
                   <template is="dom-if" if="{{item.imports.usedBy.length}}">
                     <a title="{{title(item.imports.usedBy)}}" target="_blank">
