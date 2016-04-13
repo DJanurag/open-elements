@@ -5,6 +5,7 @@
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../git-time/git-time.html">
 <link rel="import" href="../file-title/file-title.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
 <link rel="import" href="add-element.html">
 
   
@@ -25,6 +26,11 @@
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
+    
+    <iron-media-query query="(min-width: 1000px)" query-matches="{{big}}"></iron-media-query>
+    <iron-media-query query="(min-width: 600px)" query-matches="{{medium}}"></iron-media-query>
+    <iron-media-query query="(min-width: 300px)" query-matches="{{small}}"></iron-media-query
+    
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     <lunr-js no-stop-words data="{{shortlisted}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     
@@ -35,11 +41,17 @@
             <th>Docs</th>
             <th>Code</th>
             <th>Test</th>
-            <th>Used By</th>
-            <th>Bower</th>
-            <th>Imports</th>
-            <th>From</th>
-            <th title="git-time">Time</th>
+            <template is="dom-if" if="{{small}}">
+              <th>Used By</th>
+            </template>
+            <template is="dom-if" if="{{medium}}">
+              <th>Bower</th>
+              <th>Imports</th>
+              <th>From</th>
+            </template>
+            <template is="dom-if" if="{{big}}">
+              <th title="git-time">Time</th>
+            </template>
           </tr>
         </thead>
         <tbody>
@@ -72,39 +84,45 @@
                   </a>
                 </template>
               </td>
-              <td title="{{title(item.imports.usedBy)}}">
-                <template is="dom-if" if="{{item.imports.usedBy.length}}">
-                  <a title="{{title(item.imports.usedBy)}}" target="_blank">
-                    {{item.imports.usedBy.length}}
-                  </a>
-                </template>
-              </td>
-              <td >
-                <template is="dom-if" if="{{item.bowerLink}}">
-                  <file-title title="{{item.bowerJson}}" href="{{item.bowerLink}}">
-                    <a href="{{item.bowerLink}}" title="{{item.bowerJson}}" target="_blank">
-                      json
+              <template is="dom-if" if="{{small}}">
+                <td title="{{title(item.imports.usedBy)}}">
+                  <template is="dom-if" if="{{item.imports.usedBy.length}}">
+                    <a title="{{title(item.imports.usedBy)}}" target="_blank">
+                      {{item.imports.usedBy.length}}
                     </a>
-                  </file-title>
-                </template>
-              </td>
-              <td title="{{title(item.imports.users)}}">
-                <template is="dom-if" if="{{item.imports.users.length}}">
-                  <a title="{{title(item.imports.users)}}" target="_blank">
-                    {{item.imports.users.length}}
+                  </template>
+                </td>
+              </template>
+              <template is="dom-if" if="{{medium}}">
+                <td>
+                  <template is="dom-if" if="{{item.bowerLink}}">
+                    <file-title title="{{item.bowerJson}}" href="{{item.bowerLink}}">
+                      <a href="{{item.bowerLink}}" title="{{item.bowerJson}}" target="_blank">
+                        json
+                      </a>
+                    </file-title>
+                  </template>
+                </td>
+                <td title="{{title(item.imports.users)}}">
+                  <template is="dom-if" if="{{item.imports.users.length}}">
+                    <a title="{{title(item.imports.users)}}" target="_blank">
+                      {{item.imports.users.length}}
+                    </a>
+                  </template>
+                </td>
+                <td>
+                  <a href="{{item.gitLink}}" target="_blank">
+                    {{item.gitUser}}
                   </a>
-                </template>
-              </td>
-              <td>
-                <a href="{{item.gitLink}}" target="_blank">
-                  {{item.gitUser}}
-                </a>
-              </td>
-              <td>
-                <template is="dom-if" if="{{item.main}}">
-                  <git-time git-log-url="{{item.log}}" title="{{item.gitTimeTitle}}" time="{{item.gitTime}}"></git-time>
-                </template>
-              </td>
+                </td>
+              </template>
+              <template is="dom-if" if="{{big}}">
+                <td>
+                  <template is="dom-if" if="{{item.main}}">
+                    <git-time git-log-url="{{item.log}}" title="{{item.gitTimeTitle}}" time="{{item.gitTime}}"></git-time>
+                  </template>
+                </td>
+              </template>
             </tr> 
           </template>
         </tbody>
