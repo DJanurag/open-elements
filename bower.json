@@ -17,6 +17,7 @@
     "file-title": "marcus7777/file-title",
     "open-elements": "marcus7777/open-elements",
     "mediator-data": "marcus7777/mediator-data",
-    "carbon-route": "PolymerElements/carbon-route#~0.8.4"
+    "carbon-route": "PolymerElements/carbon-route#~0.8.4",
+    "iron-media-query": "PolymerElements/iron-media-query#~1.0.8"
   }
 }
