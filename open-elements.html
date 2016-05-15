@@ -6,6 +6,8 @@
 <link rel="import" href="../git-time/git-time.html">
 <link rel="import" href="../file-title/file-title.html">
 <link rel="import" href="../iron-media-query/iron-media-query.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../textfit-div/textfit-div.html">
 <link rel="import" href="add-element.html">
 
   
@@ -16,118 +18,52 @@
 <dom-module id="open-elements">
   <template>
     <style>
-      th, td {
+      .fan {
         text-align: left;
-        padding: 8px;
       }
-      tr:nth-child(even){background-color: #f2f2f2}
+      .fan paper-material {
+        margin: 3px -240px 5px 0;
+        transition-property: margin;
+        transition-duration: .6s;
+      }
+      .fan paper-material:hover,
+      .fan paper-material:focus {
+        margin: 3px 10px 5px 0;
+        transition-property: margin;
+        transition-duration: .6s;
+      }
+      paper-material:nth-child(even){background-color: #f2f2f2}
     </style>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
     <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
-    <iron-media-query query="(min-width: 1025px)" query-matches="{{big}}"></iron-media-query>
-    <iron-media-query query="(min-width: 600px)" query-matches="{{medium}}"></iron-media-query>
-    <iron-media-query query="(min-width: 500px)" query-matches="{{small}}"></iron-media-query>
-    
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     <lunr-js no-stop-words data="{{shortlisted}}" search="{{search}}" output="{{_output}}" ></lunr-js>
-    
-      <table width="100%">
-        <thead>
-          <tr>
-            <th>Element</th>
-            <th>Docs</th>
-            <th>Code</th>
-            <template is="dom-if" if="{{small}}">
-              <th>Test</th>
-              <th>Used By</th>
-            </template>
-            <template is="dom-if" if="{{medium}}">
-              <th>Bower</th>
-              <th>Imports</th>
-              <th>From</th>
-            </template>
-            <template is="dom-if" if="{{big}}">
-              <th title="git-time">Time</th>
-            </template>
-          </tr>
-        </thead>
-        <tbody>
-          <template is="dom-repeat" items="{{_output}}" sort="sort">
-            <tr>
-              <td>
-                {{item.name}}
-                <template is="dom-if" if="{{item.bowerJson}}">
-                  <br><small>{{getDis(item.bowerJson)}}</small>
-                </template> 
-                <template is="dom-if" if="{{!inShortlist(item.name, _shortlist)}}">
-                  <button title="add to shortlist" style="float:right" on-tap="shortlist">&#8801;</button>
-                </template>
-              </td>
-              <td>
-                <template is="dom-if" if="{{item.docs}}">
-                  <a href="{{item.folder}}" target="_blank">docs</a>
-                </template>
-              </td>
-              <td><a href="{{item.file}}" target="_blank">&lt;/&gt;</a></td>
-              <template is="dom-if" if="{{small}}">
-                <td>
-                  <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-                    <a href="{{item.test}}" target="_blank">
-                      <template is="dom-if" if="{{item.travis}}">
-                        <div inner-h-t-m-l={{item.travis}}></div>
-                      </template>
-                      <template is="dom-if" if="{{!item.travis}}">
-                        test
-                      </template>
-                    </a>
-                  </template>
-                </td>
-                <td title="{{title(item.imports.usedBy)}}">
-                  <template is="dom-if" if="{{item.imports.usedBy.length}}">
-                    <a title="{{title(item.imports.usedBy)}}" target="_blank">
-                      {{item.imports.usedBy.length}}
-                    </a>
-                  </template>
-                </td>
-              </template>
-              <template is="dom-if" if="{{medium}}">
-                <td>
-                  <template is="dom-if" if="{{item.bowerLink}}">
-                    <file-title title="{{item.bowerJson}}" href="{{item.bowerLink}}">
-                      <a href="{{item.bowerLink}}" title="{{item.bowerJson}}" target="_blank">
-                        json
-                      </a>
-                    </file-title>
-                  </template>
-                </td>
-                <td title="{{title(item.imports.users)}}">
-                  <template is="dom-if" if="{{item.imports.users.length}}">
-                    <a title="{{title(item.imports.users)}}" target="_blank">
-                      {{item.imports.users.length}}
-                    </a>
-                  </template>
-                </td>
-                <td>
-                  <a href="{{item.gitLink}}" target="_blank">
-                    {{item.gitUser}}
-                  </a>
-                </td>
-              </template>
-              <template is="dom-if" if="{{big}}">
-                <td>
-                  <template is="dom-if" if="{{item.main}}">
-                    <git-time git-log-url="{{item.log}}" title="{{item.gitTimeTitle}}" time="{{item.gitTime}}"></git-time>
-                  </template>
-                </td>
-              </template>
-            </tr> 
-          </template>
-        </tbody>
-      </table>
-      
+    <div class="fan">
+      <template is="dom-repeat" items="{{_output}}" sort="sort">
+        <paper-material elevation="4" style="height:350px;width:270px;display: inline-block;background: #fff;">
+          <span>
+            <textfit-div text="{{item.spacedTitle}}" style="width: 40px;float: left;text-align: center;display: inline-block; word-wrap: break-word;overflow: hidden;padding: 0px;font-size: large; letter-spacing: 15px;height:350px"></textfit-div>
+          </span>
+          <span style="float:right">
+          <template is="dom-if" if="{{hasTest(item.name, tests)}}">
+            <a href="{{item.test}}" target="_blank">
+            <template is="dom-if" if="{{item.travis}}"> <div inner-h-t-m-l={{item.travis}}></div> </template>
+            <template is="dom-if" if="{{!item.travis}}"> test </template> </a>
+          </template>  
+          <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a> <small>&lt/></small></span>
+          <p style="clear:right">{{getDis(item.bowerJson)}}</p>
+          from {{item.gitUser}}
+          <template is="dom-if" if="{{item.bowerLink}}">
+            <file-title title="{{item.bowerJson}}" href="{{item.bowerLink}}">
+              <a href="{{item.bowerLink}}" title="{{item.bowerJson}}" target="_blank">json</a>
+            </file-title>
+          </template> 
+        </paper-material>
+      </template>
+    </div>  
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
     <short-list value="{{_shortlist}}" data="{{objectToArray(data)}}" output="{{shortlisted}}" list-by="name"></short-list>
     <add-element></add-element>
@@ -141,11 +77,13 @@
       searchTail: {observer:"searchTailUpdate"}
     },
     getDis: function(json) {
-      var dis = JSON.parse(json)
-      if (dis.description) {
-        return dis.description
-      } else {
-        return ""
+      if (json) {
+        var dis = JSON.parse(json)
+        if (dis.description) {
+          return dis.description
+        } else {
+          return ""
+        }
       }
     },
     inShortlist: function(element, shortlist) {
@@ -234,6 +172,7 @@
           output.push({
             group:file.slice(0, file.indexOf("-")), 
             name: file.replace('.html',''),
+            spacedTitle: file.replace('.html','').split("").join(" "),
             bower: folder,
             main: main,
             travis: travisBadge(folder, fromGitUser),
