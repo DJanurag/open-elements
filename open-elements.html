@@ -1,5 +1,4 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../short-list/short-list.html">
 <link rel="import" href="../git-time/git-time.html">
 <link rel="import" href="../lunr-js/lunr-js.html">
 <link rel="import" href="../paper-input/paper-input.html">
@@ -43,7 +42,7 @@
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
-    <lunr-js no-stop-words data="{{shortlisted}}" search="{{search}}" output="{{_output}}" ></lunr-js>
+    <lunr-js no-stop-words data="{{data}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     <div class="fan">
       <template is="dom-repeat" items="{{_output}}" sort="sort">
         <paper-material elevation="4" style="overflow:hidden;height:350px;width:270px;display:inline-block;background:#fff">
@@ -71,7 +70,6 @@
       </template>
     </div>  
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
-    <short-list value="{{_shortlist}}" data="{{objectToArray(data)}}" output="{{shortlisted}}" list-by="name"></short-list>
     <add-element></add-element>
   </template>
 </dom-module>
@@ -99,121 +97,123 @@
         return false
       }
     },
-    getRemoteData: function(list, imports, gitList) { if (list && imports && gitList) {
-      var output = []
-      var isAnElement= []
-      var elements = list.split('\n')
-      var importsList = imports.split('\n')
-      var dataList = gitList.split('\n')
+    getRemoteData: function(list, imports, gitList) { 
+      if (list && imports && gitList) {
+        var output = []
+        var isAnElement= []
+        var elements = list.split('\n')
+        var importsList = imports.split('\n')
+        var dataList = gitList.split('\n')
       
-      function travisBadge(bowerName, fromGitUser) { 
-        if (dataList.indexOf('bower_components/'+bowerName+'/.travis.yml') !== -1) {
-          return '<img src="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'.svg" title="travis" />' // <a href="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'"></a>'
-        } else {
-          return false
+        function travisBadge(bowerName, fromGitUser) { 
+          if (dataList.indexOf('bower_components/'+bowerName+'/.travis.yml') !== -1) {
+            return '<img src="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'.svg" title="travis" />' // <a href="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'"></a>'
+          } else {
+            return false
+          }
         }
-      }
-      function bowerFile(bowerName) { 
-        if (dataList.indexOf('bower_components/'+bowerName+'/bower.json') !== -1) {
-          return 'bower_components/'+bowerName+'/bower.json'
-        } else {
-          return false
+        function bowerFile(bowerName) { 
+          if (dataList.indexOf('bower_components/'+bowerName+'/bower.json') !== -1) {
+            return 'bower_components/'+bowerName+'/bower.json'
+          } else {
+            return false
+          }
         }
-      }
-      function gitUser(bowerName) { 
-        var re = new RegExp('([^/]*)(?:/'+bowerName+'\.git)','gi')
-        var found = re.exec(gitList)
+        function gitUser(bowerName) { 
+          var re = new RegExp('([^/]*)(?:/'+bowerName+'\.git)','gi')
+          var found = re.exec(gitList)
           
-        if (found) {
-          return found[1]
+          if (found) {
+            return found[1]
+          }
         }
-      }
-      function countImports (file) {
-        var usedBy = []
-        var users = []
+        function countImports (file) {
+          var usedBy = []
+          var users = []
         
-        for (var ic = 0; ic < importsList.length; ++ic) {
-          var line = importsList[ic].split(':rel="import" href="../')
-          if (line.length === 2) {
-            if (line[0].indexOf(file) !== -1) {
-              users.push(line[1])
-            } else if (line[1].indexOf(file) !== -1) {
-              usedBy.push(line[0])
+          for (var ic = 0; ic < importsList.length; ++ic) {
+            var line = importsList[ic].split(':rel="import" href="../')
+            if (line.length === 2) {
+              if (line[0].indexOf(file) !== -1) {
+                users.push(line[1])
+              } else if (line[1].indexOf(file) !== -1) {
+                usedBy.push(line[0])
+              }
             }
           }
+          return {users: users, usedBy: usedBy}
         }
-        return {users: users, usedBy: usedBy}
-      }
-      for (var i = 0; i < elements.length; ++i) {
-        var path = elements[i].split('/')
-        var file = path.pop()
-        var folder = path.pop()
-        if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
-          isAnElement.push(folder)
-        }
-      }
-      for (var i = 0; i < elements.length; ++i) {
-        var path = elements[i].split('/')
-        var file = path.pop()
-        var folder = path.pop()
-        var fromGitUser = gitUser(folder)
-        if (fromGitUser === "polymerelements") {
-          fromGitUser = "PolymerElements"
-        }
-        var fromGitGourp
-        var docs = false
-        var main = false
-        if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
-          if (fromGitUser.length > 10) {
-            fromGitGourp = fromGitUser.slice(0,9) + '…'
-          } else {
-            fromGitGourp = fromGitUser
+        for (var i = 0; i < elements.length; ++i) {
+          var path = elements[i].split('/')
+          var file = path.pop()
+          var folder = path.pop()
+          if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
+            isAnElement.push(folder)
           }
-          if (elements.indexOf("bower_components/"+folder+"/"+folder+".html") !== -1 || elements.indexOf("bower_components/"+folder+"/index.html") !== -1) {
-            docs = true
-          }
-          if (folder === file.replace('.html','')) {
-            main = true
-          }
-          output.push({
-            group:file.slice(0, file.indexOf("-")), 
-            name: file.replace('.html',''),
-            spacedTitle: file.replace('.html','').split("").join(" "),
-            bower: folder,
-            main: main,
-            travis: travisBadge(folder, fromGitUser),
-            gitUser: fromGitUser,
-            gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
-            gitGourp: fromGitGourp,
-            imports: countImports(folder+'/'+file),
-            bowerLink: bowerFile(folder),
-            docs: true,
-            folder: '/'+path+'/'+folder,
-            test: '/'+path+'/'+folder+'/test/',
-            log: '/'+path+'/'+folder+'/gitlog',
-            file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
-          })
         }
+        for (var i = 0; i < elements.length; ++i) {
+          var path = elements[i].split('/')
+          var file = path.pop()
+          var folder = path.pop()
+          var fromGitUser = gitUser(folder)
+          if (fromGitUser === "polymerelements") {
+            fromGitUser = "PolymerElements"
+          }
+          var fromGitGourp
+          var docs = false
+          var main = false
+          if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
+            if (fromGitUser.length > 10) {
+              fromGitGourp = fromGitUser.slice(0,9) + '…'
+            } else {
+              fromGitGourp = fromGitUser
+            }
+            if (elements.indexOf("bower_components/"+folder+"/"+folder+".html") !== -1 || elements.indexOf("bower_components/"+folder+"/index.html") !== -1) {
+              docs = true
+            }
+            if (folder === file.replace('.html','')) {
+              main = true
+            }
+            output.push({
+              group:file.slice(0, file.indexOf("-")), 
+              name: file.replace('.html',''),
+              spacedTitle: file.replace('.html','').split("").join(" "),
+              bower: folder,
+              main: main,
+              travis: travisBadge(folder, fromGitUser),
+              gitUser: fromGitUser,
+              gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
+              gitGourp: fromGitGourp,
+              imports: countImports(folder+'/'+file),
+              bowerLink: bowerFile(folder),
+              docs: true,
+              folder: '/'+path+'/'+folder,
+              test: '/'+path+'/'+folder+'/test/',
+              log: '/'+path+'/'+folder+'/gitlog',
+              file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
+            })
+          }
+        }
+        output.push({
+          group:"iron", 
+          name: "polymer",
+          bower: "polymer",
+          travis: travisBadge("polymer", "Polymer"),
+          gitUser: "Polymer",
+          main: true,
+          gitLink: "https://github.com/Polymer/polymer/polymer.html",
+          gitGourp: "Polymer",
+          imports: countImports("polymer/polymer.html"),
+          docs: true,
+          folder: '/bower_components/polymer',
+          test: '/bower_components/polymer/test/runner.html',
+          log: '/bower_components/polymer/gitlog',
+          file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
+        })
+        
+        return output
       }
-      output.push({
-        group:"iron", 
-        name: "polymer",
-        bower: "polymer",
-        travis: travisBadge("polymer", "Polymer"),
-        gitUser: "Polymer",
-        main: true,
-        gitLink: "https://github.com/Polymer/polymer/polymer.html",
-        gitGourp: "Polymer",
-        imports: countImports("polymer/polymer.html"),
-        docs: true,
-        folder: '/bower_components/polymer',
-        test: '/bower_components/polymer/test/runner.html',
-        log: '/bower_components/polymer/gitlog',
-        file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
-      })
-      
-      return output
-    }},
+    },
     hasTest: function(path, tests) {
       return -1 !== tests.indexOf(path)
     },
