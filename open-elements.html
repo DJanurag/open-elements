@@ -38,23 +38,19 @@
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
           </span>
           <span style="float:right">
-          <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-            <a href="{{item.test}}" target="_blank">
-              <template is="dom-if" if="{{item.travis}}"><div inner-h-t-m-l={{item.travis}}></div></template>
-              <template is="dom-if" if="{{!item.travis}}">test</template>
-            </a>
-          </template> 
-          <template is="dom-if" if="{{item.imports.usedBy.length}}">
-            <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a> <small>&lt/></small>
-          </template>
+            <template is="dom-if" if="{{hasTest(item.name, tests)}}">
+              <a href="{{item.test}}" target="_blank">
+                <template is="dom-if" if="{{item.travis}}"><div inner-h-t-m-l={{item.travis}}></div></template>
+                <template is="dom-if" if="{{!item.travis}}">test</template>
+              </a>
+            </template> 
+            <template is="dom-if" if="{{item.imports.usedBy.length}}">
+              <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
+            </template>
+            <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
           </span>
           <p style="clear:right">{{getDis(item.bowerJson)}}</p>
           {{item.name}} is from {{item.gitUser}}
-          <template is="dom-if" if="{{item.bowerLink}}">
-            <file-title title="{{item.bowerJson}}" href="{{item.bowerLink}}">
-              <a href="{{item.bowerLink}}" title="{{item.bowerJson}}" target="_blank">json</a>
-            </file-title>
-          </template> 
           <a href="{{item.folder}}">Docs</a>
         </paper-material>
       </template>
@@ -125,7 +121,8 @@
           return {users: users, usedBy: usedBy}
         }
         for (var i = 0; i < titles.length; ++i) {
-          var folder = titles._folder
+          var folder = titles[i]._folder
+          var file = titles[i]._file
           var fromGitUser = gitUser(folder)
           if (fromGitUser === "polymerelements") {
             fromGitUser = "PolymerElements"
@@ -133,7 +130,7 @@
           var fromGitGourp
           var docs = false
           var main = false
-          if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
+          if (file.indexOf("-") !== -1 && fromGitUser) {
             if (fromGitUser.length > 10) {
               fromGitGourp = fromGitUser.slice(0,9) + '…'
             } else {
@@ -153,6 +150,7 @@
             titles[i].gitGourp = fromGitGourp
             titles[i].imports = countImports(folder+'/'+file)
             titles[i].bowerLink = bowerFile(folder)
+            this.getResults(titles[i].bowerLink)
           }
         }
         
@@ -196,6 +194,7 @@
               spacedTitle: file.replace('.html','').split("").join(" "),
               folder: '/'+path+'/'+folder,
               _folder: folder,
+              _file: file,
               test: '/'+path+'/'+folder+'/test/',
               log: '/'+path+'/'+folder+'/gitlog',
               file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
@@ -209,6 +208,8 @@
           bower: "polymer",
           gitUser: "Polymer",
           main: true,
+          _file: "polymer.html",
+          _folder: "polymer",
           gitLink: "https://github.com/Polymer/polymer/polymer.html",
           gitGourp: "Polymer",
           docs: true,
@@ -254,6 +255,33 @@
         }
       }
       return output
+    },
+    getResults: function(theurl) {
+      var getJSON = function(url) {
+        return new Promise(function(resolve, reject) {
+          var xhr = new XMLHttpRequest()
+          xhr.open('get', url, true)
+          xhr.responseType = 'json'
+          xhr.onload = function() {
+            var status = xhr.status
+            if (status == 200) {
+              resolve(xhr.response)
+            } else {
+              reject(status)
+            }
+          }
+          xhr.send()
+        })
+      }
+      var that = this
+
+      getJSON(theurl).then(function(jsonData) {
+        if (jsonData && jsonData !== null) {
+          that.bowerData[jsonData.main] = jsonData
+        }
+      }, function(status) { //error detection....
+            // alert('Something went wrong.');
+      });
     }
   })
 </script>
