@@ -30,9 +30,9 @@
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
-    <lunr-js no-stop-words data="{{titles || data}}" search="{{search}}" output="{{_output}}" ></lunr-js>
+    <lunr-js no-stop-words data="{{titles}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     <div class="fan">
-      <template is="dom-repeat" items="{{_output}}" sort="sort">
+      <template is="dom-repeat" items="{{_output}}">
         <paper-material elevation="4" style="">
           <span>
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
@@ -67,9 +67,8 @@
   Polymer({
     is: "open-elements",
     properties: {
-      data: {computed:'getRemoteData(list, imports, gitList)'},
+      data: {computed:'getRemoteData(titles, imports, gitList)'},
       titles: {computed:'getTitles(list)'}
-      searchTail: {observer:"searchTailUpdate"}
     },
     getDis: function(json) {
       if (json) {
@@ -81,11 +80,9 @@
         }
       }
     },
-    getRemoteData: function(list, imports, gitList) { 
-      if (list && imports && gitList) {
-        var output = []
+    getRemoteData: function(titles, imports, gitList) { 
+      if (titles && imports && gitList) {
         var isAnElement= []
-        var elements = list.split('\n')
         var importsList = imports.split('\n')
         var dataList = gitList.split('\n')
       
@@ -127,18 +124,8 @@
           }
           return {users: users, usedBy: usedBy}
         }
-        for (var i = 0; i < elements.length; ++i) {
-          var path = elements[i].split('/')
-          var file = path.pop()
-          var folder = path.pop()
-          if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
-            isAnElement.push(folder)
-          }
-        }
-        for (var i = 0; i < elements.length; ++i) {
-          var path = elements[i].split('/')
-          var file = path.pop()
-          var folder = path.pop()
+        for (var i = 0; i < titles.length; ++i) {
+          var folder = titles._folder
           var fromGitUser = gitUser(folder)
           if (fromGitUser === "polymerelements") {
             fromGitUser = "PolymerElements"
@@ -158,45 +145,18 @@
             if (folder === file.replace('.html','')) {
               main = true
             }
-            output.push({
-              group:file.slice(0, file.indexOf("-")), 
-              name: file.replace('.html',''),
-              spacedTitle: file.replace('.html','').split("").join(" "),
-              bower: folder,
-              main: main,
-              travis: travisBadge(folder, fromGitUser),
-              gitUser: fromGitUser,
-              gitLink: "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file,
-              gitGourp: fromGitGourp,
-              imports: countImports(folder+'/'+file),
-              bowerLink: bowerFile(folder),
-              docs: true,
-              folder: '/'+path+'/'+folder,
-              test: '/'+path+'/'+folder+'/test/',
-              log: '/'+path+'/'+folder+'/gitlog',
-              file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
-            })
+            titles[i].bower = folder
+            titles[i].main = main
+            titles[i].travis = travisBadge(folder, fromGitUser)
+            titles[i].gitUser = fromGitUser
+            titles[i].gitLink = "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file
+            titles[i].gitGourp = fromGitGourp
+            titles[i].imports = countImports(folder+'/'+file)
+            titles[i].bowerLink = bowerFile(folder)
           }
         }
-        output.push({
-          group:"iron", 
-          name: "polymer",
-          spacedTitle: "polymer".split("").join(" "),
-          bower: "polymer",
-          travis: travisBadge("polymer", "Polymer"),
-          gitUser: "Polymer",
-          main: true,
-          gitLink: "https://github.com/Polymer/polymer/polymer.html",
-          gitGourp: "Polymer",
-          imports: countImports("polymer/polymer.html"),
-          docs: true,
-          folder: '/bower_components/polymer',
-          test: '/bower_components/polymer/test/runner.html',
-          log: '/bower_components/polymer/gitlog',
-          file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
-        })
         
-        return output
+        return titles
       }
     },
     hasTest: function(path, tests) {
@@ -223,16 +183,7 @@
           var path = elements[i].split('/')
           var file = path.pop()
           var folder = path.pop()
-          var fromGitUser = gitUser(folder)
-          if (fromGitUser === "polymerelements") {
-            fromGitUser = "PolymerElements"
-          }
-          if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1 && fromGitUser) {
-            if (fromGitUser.length > 10) {
-              fromGitGourp = fromGitUser.slice(0,9) + '…'
-            } else {
-              fromGitGourp = fromGitUser
-            }
+          if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
             if (elements.indexOf("bower_components/"+folder+"/"+folder+".html") !== -1 || elements.indexOf("bower_components/"+folder+"/index.html") !== -1) {
               docs = true
             }
@@ -244,6 +195,7 @@
               name: file.replace('.html',''),
               spacedTitle: file.replace('.html','').split("").join(" "),
               folder: '/'+path+'/'+folder,
+              _folder: folder,
               test: '/'+path+'/'+folder+'/test/',
               log: '/'+path+'/'+folder+'/gitlog',
               file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
