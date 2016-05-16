@@ -33,7 +33,7 @@
     <lunr-js no-stop-words data="{{data}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     <div class="fan">
       <template is="dom-repeat" items="{{_output}}">
-        <paper-material elevation="4" style="">
+        <paper-material elevation="4">
           <span>
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
           </span>
@@ -49,7 +49,7 @@
             </template>
             <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
           </span>
-          <p style="clear:right">{{getDis(item.bowerJson)}}</p>
+          <p style="clear:right">{{item.description}}</p>
           {{item.name}} is from {{item.gitUser}}
           <a href="{{item.folder}}">Docs</a>
         </paper-material>
@@ -81,16 +81,6 @@
         data.push(add)
       }
       this.set("data", data)
-    },
-    getDis: function(json) {
-      if (json) {
-        var dis = JSON.parse(json)
-        if (dis.description) {
-          return dis.description
-        } else {
-          return ""
-        }
-      }
     },
     getRemoteData: function(titles, imports, gitList) { 
       if (titles && imports && gitList) {
