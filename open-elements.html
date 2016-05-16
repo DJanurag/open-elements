@@ -291,7 +291,9 @@
       getJSON(theurl).then(function(jsonData) {
         if (jsonData && jsonData !== null) {
           if (Array.isArray(jsonData.main)){
-            debugger
+            for (var i = 0; i < jsonData.main.length; i++) {
+              that.bowerData[jsonData.main[i]] = jsonData
+            }
           } else {
             that.bowerData[jsonData.main] = jsonData
           }
