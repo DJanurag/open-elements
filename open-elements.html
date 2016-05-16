@@ -71,11 +71,16 @@
       this.debounce("setInput", this.setInput, 1200)
     },
     setInput: function(){
-      this.data = []
+      data = []
       for (var i = 0;i < this._data.length; ++i) {
-        
-        this.data.push()
+        var add = {}
+        for (attr in this._data[i]) {
+          add[attr] = this._data[i][attr]
+        }
+        add.description = this.bowerData[add._file].description
+        data.push(add)
       }
+      this.set("data", data)
     },
     getDis: function(json) {
       if (json) {
