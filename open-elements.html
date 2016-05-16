@@ -152,8 +152,10 @@
             titles[i].gitLink = "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file
             titles[i].gitGourp = fromGitGourp
             titles[i].imports = countImports(folder+'/'+file)
-            titles[i].bowerLink = bowerFile(folder)
-            this.getResults(titles[i].bowerLink)
+            if (bowerFile(folder)) {
+              titles[i].bowerLink = bowerFile(folder)
+              this.getResults(titles[i].bowerLink)
+            }
           }
         }
         
