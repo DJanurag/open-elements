@@ -17,23 +17,11 @@
 <dom-module id="open-elements">
   <template>
     <style>
-      .fan {
-        text-align:left;
-        white-space:nowrap;
-        overflow-x: scroll;
-      }
-      .fan paper-material {
-        white-space:normal;
-        margin: 3px -240px 5px 0;
-        transition-property: margin;
-        transition-duration: .6s;
-      }
+      paper-material {overflow:hidden;height:350px;width:270px;display:inline-block;background:#fff}
+      .fan {text-align:left;white-space:nowrap;overflow-x:scroll}
+      .fan paper-material {white-space:normal;margin:3px -240px 5px 0;transition-property:margin;transition-duration:.5s}
       .fan paper-material:hover,
-      .fan paper-material:focus {
-        margin: 3px 0 5px ;
-        transition-property: margin;
-        transition-duration: .6s;
-      }
+      .fan paper-material:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.6s}
       paper-material:nth-child(even){background-color: #f2f2f2}
     </style>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
@@ -45,9 +33,9 @@
     <lunr-js no-stop-words data="{{data}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     <div class="fan">
       <template is="dom-repeat" items="{{_output}}" sort="sort">
-        <paper-material elevation="4" style="overflow:hidden;height:350px;width:270px;display:inline-block;background:#fff">
+        <paper-material elevation="4" style="">
           <span>
-            <textfit-div text="{{item.spacedTitle}}" style="width: 40px;float: left;text-align: center;display: inline-block; word-wrap: break-word;overflow: hidden;padding: 0px;font-size: large; letter-spacing: 15px;height:350px"></textfit-div>
+            <div style="width: 40px;float: left;text-align: center;display: inline-block; word-wrap: break-word;overflow: hidden;padding: 0px;font-size: large; letter-spacing: 15px;height:350px">{{item.spacedTitle}}</div>
           </span>
           <span style="float:right">
           <template is="dom-if" if="{{hasTest(item.name, tests)}}">
@@ -57,15 +45,17 @@
             </a>
           </template> 
           <template is="dom-if" if="{{item.imports.usedBy.length}}">
-            <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a> <small>&lt/></small></span>
+            <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a> <small>&lt/></small>
           </template>
+          </span>
           <p style="clear:right">{{getDis(item.bowerJson)}}</p>
-          from {{item.gitUser}}
+          {{item.name}} is from {{item.gitUser}}
           <template is="dom-if" if="{{item.bowerLink}}">
             <file-title title="{{item.bowerJson}}" href="{{item.bowerLink}}">
               <a href="{{item.bowerLink}}" title="{{item.bowerJson}}" target="_blank">json</a>
             </file-title>
           </template> 
+          <a href="{{item.folder}}">Docs</a>
         </paper-material>
       </template>
     </div>  
@@ -197,6 +187,7 @@
         output.push({
           group:"iron", 
           name: "polymer",
+          spacedTitle: "polymer".split("").join(" "),
           bower: "polymer",
           travis: travisBadge("polymer", "Polymer"),
           gitUser: "Polymer",
