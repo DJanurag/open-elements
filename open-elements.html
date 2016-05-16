@@ -30,7 +30,7 @@
     <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
     
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
-    <lunr-js no-stop-words data="{{titles}}" search="{{search}}" output="{{_output}}" ></lunr-js>
+    <lunr-js no-stop-words data="{{data}}" search="{{search}}" output="{{_output}}" ></lunr-js>
     <div class="fan">
       <template is="dom-repeat" items="{{_output}}">
         <paper-material elevation="4" style="">
