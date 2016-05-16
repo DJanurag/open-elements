@@ -279,7 +279,7 @@
         })
       }
       var that = this
-
+      var that.bowerData = {}
       getJSON(theurl).then(function(jsonData) {
         if (jsonData && jsonData !== null) {
           if (Array.isArray(jsonData.main)){
