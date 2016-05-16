@@ -35,7 +35,7 @@
       <template is="dom-repeat" items="{{_output}}" sort="sort">
         <paper-material elevation="4" style="">
           <span>
-            <div style="width: 40px;float: left;text-align: center;display: inline-block; word-wrap: break-word;overflow: hidden;padding: 0px;font-size: large; letter-spacing: 15px;height:350px">{{item.spacedTitle}}</div>
+            <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
           </span>
           <span style="float:right">
           <template is="dom-if" if="{{hasTest(item.name, tests)}}">
