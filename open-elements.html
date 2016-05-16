@@ -63,8 +63,19 @@
   Polymer({
     is: "open-elements",
     properties: {
-      data: {computed:'getRemoteData(titles, imports, gitList)'},
+      _withbower: {computed: 'debounceGotbower(bowerData, _data)'},
+      _data: {computed:'getRemoteData(titles, imports, gitList)'},
       titles: {computed:'getTitles(list)'}
+    },
+    debounceGotbower: function(){
+      this.debounce("setInput", this.setInput, 1200)
+    },
+    setInput: function(){
+      this.data = []
+      for (var i = 0;i < this._data.length; ++i) {
+        
+        this.data.push()
+      }
     },
     getDis: function(json) {
       if (json) {
@@ -135,9 +146,6 @@
               fromGitGourp = fromGitUser.slice(0,9) + '…'
             } else {
               fromGitGourp = fromGitUser
-            }
-            if (elements.indexOf("bower_components/"+folder+"/"+folder+".html") !== -1 || elements.indexOf("bower_components/"+folder+"/index.html") !== -1) {
-              docs = true
             }
             if (folder === file.replace('.html','')) {
               main = true
@@ -277,7 +285,11 @@
 
       getJSON(theurl).then(function(jsonData) {
         if (jsonData && jsonData !== null) {
-          that.bowerData[jsonData.main] = jsonData
+          if (Array.isArray(jsonData.main)){
+            debugger
+          } else {
+            that.bowerData[jsonData.main] = jsonData
+          }
         }
       }, function(status) { //error detection....
             // alert('Something went wrong.');
