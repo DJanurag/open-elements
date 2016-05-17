@@ -63,7 +63,9 @@
             <marked-element markdown="{{item.description}}"></marked-element>
           </p>
           <p>{{item.name}} is from {{item.gitUser}}</p>
-          <p>license:{{item.license}}</p>
+          <template is="dom-if" if="{{item.license}}">
+            <p>license:{{item.license}}</p>
+          </template>
           <template is="dom-if" if="{{item.links}}" restamp>
             <ul>
               <template is="dom-repeat" items="{{item.links}}" as="link">
@@ -84,6 +86,7 @@
     properties: {
       _withbower: {computed: 'debounceGotbower(bowerData, _data)'},
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
+      _output: {value:""},
       titles: {computed:'getTitles(list)'}
     },
     debounceGotbower: function(){
