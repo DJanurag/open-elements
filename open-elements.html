@@ -22,10 +22,14 @@
       .fan paper-material:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.6s}
       paper-material:nth-child(even){background-color: #f2f2f2}
     </style>
+
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
-    <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
-    <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
-    <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
+    
+    <template is="dom-if" if="{{data}}">
+      <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
+      <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
+      <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
+    </template>
     
     <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{_output}}" ></lunr-js>
@@ -38,7 +42,9 @@
           <span style="float:right">
             <template is="dom-if" if="{{hasTest(item.name, tests)}}">
               <a href="{{item.test}}" target="_blank">
-                <template is="dom-if" if="{{item.travis}}"><div inner-h-t-m-l={{item.travis}}></div></template>
+                <template is="dom-if" if="{{item.travis}}">
+                  <span inner-h-t-m-l={{item.travis}}></span>
+                </template>
                 <template is="dom-if" if="{{!item.travis}}">test</template>
               </a>
             </template> 
@@ -54,7 +60,7 @@
   
           <template is="dom-if" if="{{item.links}}">
             <ul>
-              <template is="dom-repeat" items="{{item.links}}" item="link">
+              <template is="dom-repeat" items="{{item.links}}" as="link">
                 <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
               </template>
             </ul>
