@@ -90,7 +90,7 @@
         for (attr in this._data[i]) {
           add[attr] = this._data[i][attr]
         }
-        if (this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("description")  ) {
+        if (!add.description && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("description")) {
           add.description = this.bowerData[add._file].description
         }
         data.push(add)
@@ -164,12 +164,20 @@
             titles[i].main = main
             titles[i].travis = travisBadge(folder, fromGitUser)
             titles[i].gitUser = fromGitUser
-            titles[i].gitLink = "https://github.com/"+fromGitUser+"/"+folder+"/edit/master/"+file
+            var addLink = {url: "https://github.com/"+fromGitUser+"/"+folder+"/blob/master/"+file,title: "gh"}
+            if (titles[i].links) {
+              titles[i].links.push(addlink)
+            } else {
+              titles[i].links = [addlink]
+            }
             titles[i].gitGourp = fromGitGourp
             titles[i].imports = countImports(folder+'/'+file)
-            if (bowerFile(folder)) {
-              titles[i].bowerLink = bowerFile(folder)
-              this.getResults(titles[i].bowerLink)
+            var getting = ""
+            var bowerFileUrl = bowerFile(folder) 
+            if (bowerFileUrl && bowerFileUrl !== getting) {
+              titles[i].bowerLink = bowerFileUrl
+              getting = bowerFileUrl
+              this.getResults(bowerFileUrl)
             }
           }
         }
