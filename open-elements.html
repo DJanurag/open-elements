@@ -166,9 +166,9 @@
             titles[i].gitUser = fromGitUser
             var addLink = {url: "https://github.com/"+fromGitUser+"/"+folder+"/blob/master/"+file,title: "gh"}
             if (titles[i].links) {
-              titles[i].links.push(addlink)
+              titles[i].links.push(addLink)
             } else {
-              titles[i].links = [addlink]
+              titles[i].links = [addLink]
             }
             titles[i].gitGourp = fromGitGourp
             titles[i].imports = countImports(folder+'/'+file)
