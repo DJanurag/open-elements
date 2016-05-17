@@ -180,7 +180,9 @@
       return -1 !== tests.indexOf(path)
     },
     title: function(title) {
-      return title.join("\n").replace(new RegExp("bower_components/", 'g'),"")
+      if (title) {
+        return title.join("\n").replace(new RegExp("bower_components/", 'g'),"")
+      }
     },
     getTitles: function(list) { 
       if (list) {
@@ -232,7 +234,7 @@
           gitLink: "https://github.com/Polymer/polymer/polymer.html",
           gitGourp: "Polymer",
           docs: true,
-          folder: '/bower_components/polymer',
+          links: [{url:'/bower_components/polymer',title:'API Docs'},{url:'https://github.com/Polymer/polymer/polymer.html',title: "gh"}],
           test: '/bower_components/polymer/test/runner.html',
           log: '/bower_components/polymer/gitlog',
           file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
