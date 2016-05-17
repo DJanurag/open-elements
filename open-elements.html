@@ -25,15 +25,23 @@
 
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     
-    <template is="dom-if" if="{{data}}">
+    <template is="dom-if" if="{{titles}}">
       <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
       <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
       <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
-      <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
-      <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{_output}}" ></lunr-js>
+      <template is="dom-if" if="{{data}}">
+        <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
+        <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{_output}}" ></lunr-js>
+      </template>
     </template>
-
     <div class="fan">
+      <template is="dom-if" if="{{!_output}}">
+        <template is="dom-repeat" items="{{titles}}" >
+          <paper-material elevation="4">
+            <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
+          </paper-material>
+        </template>
+      </template>
       <template is="dom-repeat" items="{{_output}}" >
         <paper-material elevation="4">
           <span>
@@ -57,7 +65,7 @@
             <marked-element markdown="{{item.description}}"></marked-element>
           </p>
           <p>{{item.name}} is from {{item.gitUser}}</p>
-  
+          <p>license:{{item.license}}</p>
           <template is="dom-if" if="{{item.links}}" restamp>
             <ul>
               <template is="dom-repeat" items="{{item.links}}" as="link">
@@ -92,6 +100,8 @@
         }
         if (!add.description && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("description")) {
           add.description = this.bowerData[add._file].description
+          add.main = true
+          add.license = this.bowerData[add._file].license
         }
 
         data.push(add)
@@ -251,9 +261,6 @@
           log: '/bower_components/polymer/gitlog',
           file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
         })
-        if (!this.data) {
-          this.set("data", output)
-        }
         return output
       }
     },
@@ -267,6 +274,12 @@
     },
     sort: function(a,b) {
       if (a && b) {
+        if (a.main && !b.main) {
+          return -1
+        }
+        if (!a.main && b.main) {
+          return 1
+        }
         if (a.imports.usedBy.length < b.imports.usedBy.length) {
           return 1
         }
