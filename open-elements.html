@@ -3,10 +3,8 @@
 <link rel="import" href="../lunr-js/lunr-js.html">
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../git-time/git-time.html">
-<link rel="import" href="../file-title/file-title.html">
-<link rel="import" href="../iron-media-query/iron-media-query.html">
+<link rel="import" href="../marked-element/marked-element.html">
 <link rel="import" href="../paper-material/paper-material.html">
-<link rel="import" href="../textfit-div/textfit-div.html">
 <link rel="import" href="add-element.html">
 
   
@@ -49,9 +47,18 @@
             </template>
             <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
           </span>
-          <p style="clear:right">{{item.description}}</p>
-          {{item.name}} is from {{item.gitUser}}
-          <a href="{{item.folder}}">Docs</a>
+          <p style="clear:right">
+            <marked-element markdown="{{item.description}}"></marked-element>
+          </p>
+          <p>{{item.name}} is from {{item.gitUser}}</p>
+  
+          <template is="dom-if" if="{{item.links}}">
+            <ul>
+              <template is="dom-repeat" items="{{item.links}}" item="link">
+                <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+              </template>
+            </ul>
+          </template>
         </paper-material>
       </template>
     </div>  
@@ -198,7 +205,7 @@
               group:file.slice(0, file.indexOf("-")), 
               name: file.replace('.html',''),
               spacedTitle: file.replace('.html','').split("").join(" "),
-              folder: '/'+path+'/'+folder,
+              links: [{url:'/'+path+'/'+folder, title: 'Docs'}],
               _folder: folder,
               _file: file,
               test: '/'+path+'/'+folder+'/test/',
