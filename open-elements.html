@@ -42,11 +42,9 @@
           </paper-material>
         </template>
       </template>
-      <template is="dom-repeat" items="{{_output}}" >
+      <template is="dom-repeat" items="{{_output}}" sort="sort">
         <paper-material elevation="4">
-          <span>
-            <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
-          </span>
+          <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
           <span style="float:right">
             <template is="dom-if" if="{{hasTest(item.name, tests)}}">
               <a href="{{item.test}}" target="_blank">
@@ -280,13 +278,13 @@
         if (!a.main && b.main) {
           return 1
         }
-        if (a.imports.usedBy.length < b.imports.usedBy.length) {
+        if (a.imports && b.imports && a.imports.usedBy.length < b.imports.usedBy.length) {
           return 1
         }
-        if (a.imports.usedBy.length > b.imports.usedBy.length) {
+        if (a.imports && b.imports && a.imports.usedBy.length > b.imports.usedBy.length) {
           return -1
         }
-        if (a.name  < b.name ) {
+        if (a.name < b.name) {
           return -1
         }
         if (a.name > b.name) {
