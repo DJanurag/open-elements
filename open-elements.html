@@ -29,12 +29,12 @@
       <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
       <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
       <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
+      <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
+      <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{_output}}" ></lunr-js>
     </template>
-    
-    <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
-    <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{_output}}" ></lunr-js>
+
     <div class="fan">
-      <template is="dom-repeat" items="{{_output}}">
+      <template is="dom-repeat" items="{{_output}}" >
         <paper-material elevation="4">
           <span>
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
@@ -58,7 +58,7 @@
           </p>
           <p>{{item.name}} is from {{item.gitUser}}</p>
   
-          <template is="dom-if" if="{{item.links}}">
+          <template is="dom-if" if="{{item.links}}" restamp>
             <ul>
               <template is="dom-repeat" items="{{item.links}}" as="link">
                 <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
@@ -93,6 +93,7 @@
         if (!add.description && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("description")) {
           add.description = this.bowerData[add._file].description
         }
+
         data.push(add)
       }
       this.set("data", data)
@@ -164,7 +165,10 @@
             titles[i].main = main
             titles[i].travis = travisBadge(folder, fromGitUser)
             titles[i].gitUser = fromGitUser
-            var addLink = {url: "https://github.com/"+fromGitUser+"/"+folder+"/blob/master/"+file,title: "gh"}
+            var addLink = {
+              url: "https://github.com/"+fromGitUser+"/"+folder+"/blob/master/"+file,
+              title: "gh"
+            }
             if (titles[i].links) {
               titles[i].links.push(addLink)
             } else {
