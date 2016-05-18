@@ -67,7 +67,7 @@
             <p>license:{{item.license}}</p>
           </template>
           <template is="dom-if" if="{{item.imports.usedBy.length}}">
-            users elements <a title="{{title(item.imports.users)}}"> {{item.imports.users.length}} </a>
+            <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
           </template>
           <ul>
             <template is="dom-repeat" items="{{item.links}}" as="link">
