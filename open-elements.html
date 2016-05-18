@@ -66,6 +66,9 @@
           <template is="dom-if" if="{{item.license}}">
             <p>license:{{item.license}}</p>
           </template>
+          <template is="dom-if" if="{{item.imports.usedBy.length}}">
+            users elements <a title="{{title(item.imports.users)}}"> {{item.imports.users.length}} </a>
+          </template>
           <ul>
             <template is="dom-repeat" items="{{item.links}}" as="link">
               <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
@@ -82,7 +85,7 @@
   Polymer({
     is: "open-elements",
     properties: {
-      _withbower: {computed: 'debounceGotbower(bowerData, _data)'},
+      _withbower: {computed: 'debounceGotbower(bowerData)'},
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
       _output: {value:""},
       titles: {computed:'getTitles(list)'}
