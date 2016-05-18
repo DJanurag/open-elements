@@ -24,13 +24,13 @@
     </style>
 
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
+    <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
     
     <template is="dom-if" if="{{titles}}">
       <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
       <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
       <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
       <template is="dom-if" if="{{data}}">
-        <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
         <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{_output}}" ></lunr-js>
       </template>
     </template>
@@ -66,13 +66,11 @@
           <template is="dom-if" if="{{item.license}}">
             <p>license:{{item.license}}</p>
           </template>
-          <template is="dom-if" if="{{item.links}}" restamp>
-            <ul>
-              <template is="dom-repeat" items="{{item.links}}" as="link">
-                <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
-              </template>
-            </ul>
-          </template>
+          <ul>
+            <template is="dom-repeat" items="{{item.links}}" as="link">
+              <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+            </template>
+          </ul>
         </paper-material>
       </template>
     </div>  
@@ -102,9 +100,11 @@
         if (!add.description && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("description")) {
           add.description = this.bowerData[add._file].description
           add.main = true
+        }
+        if (!add.license && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("license")) {
           add.license = this.bowerData[add._file].license
         }
-
+        console.log(this.bowerData[add._file])
         data.push(add)
       }
       this.set("data", data)
@@ -233,7 +233,6 @@
               main = true
             }
             output.push({
-              group:file.slice(0, file.indexOf("-")), 
               name: file.replace('.html',''),
               spacedTitle: file.replace('.html','').split("").join(" "),
               links: [{url:'/'+path+'/'+folder, title: 'Docs'}],
@@ -246,7 +245,6 @@
           }
         }
         output.push({
-          group:"iron", 
           name: "polymer",
           spacedTitle: "polymer".split("").join(" "),
           bower: "polymer",
@@ -257,7 +255,7 @@
           gitLink: "https://github.com/Polymer/polymer/polymer.html",
           gitGourp: "Polymer",
           docs: true,
-          links: [{url:'/bower_components/polymer',title:'API Docs'},{url:'https://github.com/Polymer/polymer/polymer.html',title: "gh"}],
+          links: [{url:'/bower_components/polymer',title:'API Docs'},{url:'https://github.com/Polymer/polymer/polymer.html',title: "Github"}],
           test: '/bower_components/polymer/test/runner.html',
           log: '/bower_components/polymer/gitlog',
           file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
