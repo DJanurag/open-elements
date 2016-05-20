@@ -39,16 +39,12 @@
         <template is="dom-repeat" items="{{titles}}" >
           <paper-material elevation="4" data-index="{{index}}">
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
-            <ul>
-              <template is="dom-repeat" items="{{item.links}}" as="link">
-                <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
-              </template>
-            </ul>  
+            <a href="{{item.links.1.url}}" target="_blank">{{item.links.1.title}}</a></li>
           </paper-material>
         </template>
       </template>
       <template is="dom-repeat" items="{{_output}}" restamp >
-        <paper-material elevation="4" data-index="{{index}}">
+        <paper-material elevation="4" data-index="{{index}}" on-down="alert("{{index}}")">
           <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
           <span style="float:right">
             <template is="dom-if" if="{{hasTest(item.name, tests)}}">
