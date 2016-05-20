@@ -44,38 +44,40 @@
         </template>
       </template>
       <template is="dom-repeat" items="{{_output}}" restamp >
-        <paper-material elevation="4" data-index="{{index}}" on-down="alert("{{index}}")">
-          <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
-          <span style="float:right">
-            <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-              <a href="{{item.test}}" target="_blank">
-                <template is="dom-if" if="{{item.travis}}">
-                  <span inner-h-t-m-l={{item.travis}}></span>
-                </template>
-                <template is="dom-if" if="{{!item.travis}}">test</template>
-              </a>
-            </template> 
+        <drag-me on-push-up="promote" on-push-down="bin" on-push-left="pushToStart" on-push-right="pushToEnd">
+          <paper-material elevation="4" data-index="{{index}}" on-down="alert("{{index}}")">
+            <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
+            <span style="float:right">
+              <template is="dom-if" if="{{hasTest(item.name, tests)}}">
+                <a href="{{item.test}}" target="_blank">
+                  <template is="dom-if" if="{{item.travis}}">
+                    <span inner-h-t-m-l={{item.travis}}></span>
+                  </template>
+                  <template is="dom-if" if="{{!item.travis}}">test</template>
+                </a>
+              </template> 
+              <template is="dom-if" if="{{item.imports.usedBy.length}}">
+                <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
+              </template>
+              <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
+            </span>
+            <p style="clear:right">
+              <marked-element markdown="{{item.description}}"></marked-element>
+            </p>
+            <p>{{item.name}} is from {{item.gitUser}}</p>
+            <template is="dom-if" if="{{item.license}}">
+              <p>license:{{item.license}}</p>
+            </template>
             <template is="dom-if" if="{{item.imports.usedBy.length}}">
-              <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
+              <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
             </template>
-            <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
-          </span>
-          <p style="clear:right">
-            <marked-element markdown="{{item.description}}"></marked-element>
-          </p>
-          <p>{{item.name}} is from {{item.gitUser}}</p>
-          <template is="dom-if" if="{{item.license}}">
-            <p>license:{{item.license}}</p>
-          </template>
-          <template is="dom-if" if="{{item.imports.usedBy.length}}">
-            <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
-          </template>
-          <ul>
-            <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
-              <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
-            </template>
-          </ul>
-        </paper-material>
+            <ul>
+              <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
+                <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+              </template>
+            </ul>
+          </paper-material>
+        </drag-me>
       </template>
     </div>  
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
