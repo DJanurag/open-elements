@@ -37,13 +37,18 @@
     <div class="fan">
       <template is="dom-if" if="{{!_output}}">
         <template is="dom-repeat" items="{{titles}}" >
-          <paper-material elevation="4">
+          <paper-material elevation="4" data-index="{{index}}">
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
+            <ul>
+              <template is="dom-repeat" items="{{item.links}}" as="link">
+                <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+              </template>
+            </ul>  
           </paper-material>
         </template>
       </template>
-      <template is="dom-repeat" items="{{_output}}">
-        <paper-material elevation="4">
+      <template is="dom-repeat" items="{{_output}}" restamp >
+        <paper-material elevation="4" data-index="{{index}}">
           <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
           <span style="float:right">
             <template is="dom-if" if="{{hasTest(item.name, tests)}}">
@@ -70,7 +75,7 @@
             <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
           </template>
           <ul>
-            <template is="dom-repeat" items="{{item.links}}" as="link">
+            <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
               <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
             </template>
           </ul>
