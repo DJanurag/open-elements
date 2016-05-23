@@ -370,7 +370,7 @@
       var newlevel = +(this.data[e.detail.index].level) - 1
       this.data[e.detail.index].level = newlevel
 
-      if (!this.levelList.indexOf(newlevel) !== -1) {
+      if (!this.levelList.indexOf(newlevel) === -1) {
         this.levelList.push(newlevel)
       }
       this.set("data",JSON.parse(JSON.stringify(this.data)))
@@ -380,7 +380,7 @@
       var newlevel = +(this.data[e.detail.index].level) + 1
       this.data[e.detail.index].level = newlevel
 
-      if (!this.levelList.indexOf(newlevel) !== -1) {
+      if (this.levelList.indexOf(newlevel) === -1) {
         this.levelList.push(newlevel)
       }
       this.set("data",JSON.parse(JSON.stringify(this.data)))
