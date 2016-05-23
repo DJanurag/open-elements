@@ -44,8 +44,12 @@
           </paper-material>
         </template>
       </template>
-      <template is="dom-repeat" items="{{_output}}" restamp >
-        <drag-me on-push-up="promote" on-push-down="bin">
+    </div>
+    <template is="dom-repeat" items="{{levelList}}" as="levelOn" sort="sortLevels">
+      <div class="fan">
+        <template is="dom-repeat" items="{{_output}}">
+          <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
+            <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" >
           <paper-material elevation="4" data-index="{{index}}">
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
             <span style="float:right">
@@ -78,9 +82,11 @@
               </template>
             </ul>
           </paper-material>
-        </drag-me>
-      </template>
-    </div>  
+            </drag-me>
+          </template>
+        </template>
+      </div>  
+    </template>
     <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
     <add-element></add-element>
   </template>
@@ -90,9 +96,14 @@
     is: "open-elements",
     properties: {
       _withbower: {computed: 'debounceGotbower(bowerData)'},
+      level:{type:Number,value: 0},
+      levelList:{type:Array,value: [0,1,2]},
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
       _output: {value:""},
       titles: {computed:'getTitles(list)'}
+    },
+    isLevel: function(level, levelOn ) {
+      return levelOn === level
     },
     debounceGotbower: function(){
       this.debounce("setInput", this.setInput, 1200)
@@ -242,6 +253,7 @@
             output.push({
               name: file.replace('.html',''),
               spacedTitle: file.replace('.html','').split("").join(" "),
+              level: 0,
               links: [{url:'/'+path+'/'+folder, title: 'Docs'}],
               _folder: folder,
               _file: file,
@@ -255,6 +267,7 @@
           name: "polymer",
           spacedTitle: "polymer".split("").join(" "),
           bower: "polymer",
+          level: 0,
           gitUser: "Polymer",
           main: true,
           _file: "polymer.html",
@@ -277,6 +290,15 @@
         this._shortlist = e.currentTarget.parentNode.innerText.split(' ')[0]
       }
       
+    },
+    sortLevels: function(a,b) {
+      if (a < b) {
+        return -1
+      }
+      if (a > b) {
+        return 1
+      }
+      return 0
     },
     sort: function(a,b) {
       if (a && b) {
@@ -344,8 +366,25 @@
             // alert('Something went wrong.');
       });
     },
-    bin: function(e) {
-      console.log(e)
+    promote: function(e) {
+      var newlevel = +(this.data[e.detail.index].level) - 1
+      this.data[e.detail.index].level = newlevel
+
+      if (!this.levelList.indexOf(newlevel) !== -1) {
+        this.levelList.push(newlevel)
+      }
+      this.set("data",JSON.parse(JSON.stringify(this.data)))
+      this.set("levelList",JSON.parse(JSON.stringify(this.levelList)))
+    },
+    demote: function(e) {
+      var newlevel = +(this.data[e.detail.index].level) + 1
+      this.data[e.detail.index].level = newlevel
+
+      if (!this.levelList.indexOf(newlevel) !== -1) {
+        this.levelList.push(newlevel)
+      }
+      this.set("data",JSON.parse(JSON.stringify(this.data)))
+      this.set("levelList",JSON.parse(JSON.stringify(this.levelList)))
     }
   })
 </script>
