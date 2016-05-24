@@ -32,7 +32,7 @@
       <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
       <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
       <template is="dom-if" if="{{data}}">
-        <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{_output}}" ></lunr-js>
+        <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{output}}" ></lunr-js>
       </template>
     </template>
     <div class="fan">
@@ -99,8 +99,17 @@
       level:{type:Number,value: 0},
       levelList:{type:Array,value: [0,1,2]},
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
-      _output: {value:""},
+      _output: {computed:'getOutput(data.*,output.*,search)'},
+      output: {value:""},
+      search: {value:""},
       titles: {computed:'getTitles(list)'}
+    },
+    getOutput: function(data, output, search){
+      if (search) {
+        return output
+      } else {
+        return data
+      }
     },
     isLevel: function(level, levelOn ) {
       return levelOn === level
