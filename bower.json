@@ -12,13 +12,10 @@
     "paper-input": "PolymerElements/paper-input",
     "lunr-js": "marcus7777/lunr-js",
     "drag-me": "marcus7777/drag-me",
-    "paper-filter": "Hi9Here/paper-filter",
     "git-time": "marcus7777/git-time",
     "short-list": "marcus7777/short-list",
     "file-title": "marcus7777/file-title",
     "open-elements": "marcus7777/open-elements",
-    "mediator-data": "marcus7777/mediator-data",
-    "carbon-route": "PolymerElements/carbon-route#~0.8.4",
-    "iron-media-query": "PolymerElements/iron-media-query#~1.0.8"
+    "mediator-data": "marcus7777/mediator-data"
   }
 }
