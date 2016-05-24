@@ -381,7 +381,7 @@
     demote: function(e) {
       this.setLevel(e, 1)
     },
-    setLevel(e , change) {
+    setLevel: function(e, change) {
       var newlevel = +(this.data[e.detail.index].level) + change
       this.data[e.detail.index].level = newlevel
 
