@@ -34,7 +34,6 @@
       .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
       .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me
       {margin:3px -240px 5px 0;transition-property:margin;transition-duration:.7s}
-      paper-material:nth-child(even){background-color: #f2f2f2}
     </style>
 
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
@@ -136,8 +135,8 @@
         if (colors.hasOwnProperty(group)) {
           return colors[group]
         } else {
-          // wapper in desc = molecules
-          
+          // TODO wapper in desc = molecules
+          return "f2f2f2"
         }
       }
       data = []
