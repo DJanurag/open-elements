@@ -97,7 +97,7 @@
     properties: {
       _withbower: {computed: 'debounceGotbower(bowerData)'},
       level:{type:Number,value: 0},
-      levelList:{type:Array,value: [0,1,2]},
+      levelList:{type:Array,value: [0]},
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
       _output: {computed:'getOutput(data.*,output.*,search)'},
       output: {value:""},
@@ -388,8 +388,8 @@
       if (this.levelList.indexOf(newlevel) === -1) {
         this.levelList.push(newlevel)
       }
-//      this.set("data",JSON.parse(JSON.stringify(this.data)))
-//      this.set("levelList",JSON.parse(JSON.stringify(this.levelList)))
+      this.set("data",JSON.parse(JSON.stringify(this.data)))
+      this.set("levelList",JSON.parse(JSON.stringify(this.levelList)))
     }
   })
 </script>
