@@ -16,11 +16,11 @@
 <dom-module id="open-elements">
   <template>
     <style>
-      paper-material {overflow:hidden;height:350px;width:270px;display:inline-block;background:#fff}
+      paper-material {overflow:hidden;height:350px;width:267px;display:inline-block;background:#fff}
       .fan {text-align:left;white-space:nowrap;overflow-x:scroll}
-      .fan drag-me {overflow: auto;white-space:normal;margin:3px -269px 5px 0px;transition-property:margin;transition-duration:.5s}
+      .fan drag-me {overflow: auto;white-space:normal;margin:3px -269px 5px 0px;transition-property:margin;transition-duration:.7s}
       .fan drag-me:hover,
-      .fan drag-me:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.6s}
+      .fan drag-me:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.7s}
       .fan drag-me:hover + template + drag-me,
       .fan drag-me:focus + template + drag-me,
       .fan drag-me:hover + template + drag-me + template + drag-me,
@@ -28,10 +28,12 @@
       .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me,
       .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me,
       .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
-      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me
+      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
       .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
-      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me
-      {margin:3px -240px 5px 0;transition-property:margin;transition-duration:.6s}
+      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
+      .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
+      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me
+      {margin:3px -240px 5px 0;transition-property:margin;transition-duration:.7s}
       paper-material:nth-child(even){background-color: #f2f2f2}
     </style>
 
@@ -46,22 +48,12 @@
         <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{output}}" ></lunr-js>
       </template>
     </template>
-    <div class="fan">
-      <template is="dom-if" if="{{!_output}}">
-        <template is="dom-repeat" items="{{titles}}" >
-          <paper-material elevation="4" data-index="{{index}}">
-            <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
-            <a href="{{item.links.1.url}}" target="_blank">{{item.links.1.title}}</a></li>
-          </paper-material>
-        </template>
-      </template>
-    </div>
     <template is="dom-repeat" items="{{levelList}}" as="levelOn" sort="sortLevels">
       <div class="fan">
         <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
             <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" >
-          <paper-material elevation="4" data-index="{{index}}">
+            <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
             <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
             <span style="float:right">
               <template is="dom-if" if="{{hasTest(item.name, tests)}}">
@@ -129,6 +121,25 @@
       this.debounce("setInput", this.setInput, 1200)
     },
     setInput: function(){
+      function pickColor(name, description) {
+        var colors = {
+          app: "ddc9e6",
+          iron: "81c784",
+          paper:"fff",
+          google:"64B5F6",
+          gold:"ffb74d",
+          neon:"a7ffeb",
+          platinum:"cfd8dc",
+          molecules:"ffab91",
+        }
+        var group = name.split("-")[0] 
+        if (colors.hasOwnProperty(group)) {
+          return colors[group]
+        } else {
+          // wapper in desc = molecules
+          
+        }
+      }
       data = []
       for (var i = 0;i < this._data.length; ++i) {
         var add = {}
@@ -142,6 +153,7 @@
         if (!add.license && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("license")) {
           add.license = this.bowerData[add._file].license
         }
+        add.color = pickColor(add.name, add.description)
         console.log(this.bowerData[add._file])
         data.push(add)
       }
@@ -152,7 +164,6 @@
         var isAnElement= []
         var importsList = imports.split('\n')
         var dataList = gitList.split('\n')
-      
         function travisBadge(bowerName, fromGitUser) { 
           if (dataList.indexOf('bower_components/'+bowerName+'/.travis.yml') !== -1) {
             return '<img src="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'.svg" title="travis" />' // <a href="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'"></a>'
@@ -207,6 +218,7 @@
             } else {
               fromGitGourp = fromGitUser
             }
+            
             if (folder === file.replace('.html','')) {
               main = true
             }
@@ -287,6 +299,7 @@
           name: "polymer",
           spacedTitle: "polymer".split("").join(" "),
           bower: "polymer",
+          color: "3f51b5",
           level: 0,
           gitUser: "Polymer",
           main: true,
