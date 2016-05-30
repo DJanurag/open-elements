@@ -18,17 +18,19 @@
     <style>
       paper-material {overflow:hidden;height:350px;width:270px;display:inline-block;background:#fff}
       .fan {text-align:left;white-space:nowrap;overflow-x:scroll}
-      .fan paper-material {overflow: auto;white-space:normal;margin:3px -260px 5px 20px;transition-property:margin;transition-duration:.5s}
-      .fan paper-material:hover,
-      .fan paper-material:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.6s}
-      .fan paper-material:hover + paper-material,
-      .fan paper-material:focus + paper-material,
-      .fan paper-material:hover + paper-material + paper-material,
-      .fan paper-material:focus + paper-material + paper-material,
-      .fan paper-material:hover + paper-material + paper-material + paper-material,
-      .fan paper-material:focus + paper-material + paper-material + paper-material,
-      .fan paper-material:hover + paper-material + paper-material + paper-material + paper-material,
-      .fan paper-material:focus + paper-material + paper-material + paper-material + paper-material
+      .fan drag-me {overflow: auto;white-space:normal;margin:3px -260px 5px 0px;transition-property:margin;transition-duration:.5s}
+      .fan drag-me:hover,
+      .fan drag-me:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.6s}
+      .fan drag-me:hover + template + drag-me,
+      .fan drag-me:focus + template + drag-me,
+      .fan drag-me:hover + template + drag-me + template + drag-me,
+      .fan drag-me:focus + template + drag-me + template + drag-me,
+      .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me,
+      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me,
+      .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
+      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me
+      .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
+      .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me
       {margin:3px -240px 5px 0;transition-property:margin;transition-duration:.6s}
       paper-material:nth-child(even){background-color: #f2f2f2}
     </style>
