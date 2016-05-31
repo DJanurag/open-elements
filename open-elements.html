@@ -135,7 +135,7 @@
         if (colors.hasOwnProperty(group)) {
           return colors[group]
         } else {
-          if ( description.indexOf("wapper") > -1) {
+          if (description && description.indexOf("wapper") > -1) {
             return colors.molecules
           } else {
             return "CCC"
