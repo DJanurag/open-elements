@@ -49,7 +49,7 @@
     </template>
     <template is="dom-repeat" items="{{levelList}}" as="levelOn" sort="sortLevels">
       <div class="fan">
-        <template is="dom-repeat" items="{{_output}}">
+        <template is="dom-repeat" initial-count="1" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
             <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" on-tap="load" >
               <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
