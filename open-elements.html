@@ -16,9 +16,9 @@
 <dom-module id="open-elements">
   <template>
     <style>
-      paper-material {overflow:hidden;height:350px;width:267px;display:inline-block;background:#fff}
+      paper-material {overflow:auto;height:350px;width:267px;display:inline-block;background:#fff}
       .fan {text-align:left;white-space:nowrap;overflow-x:scroll}
-      .fan drag-me {overflow: auto;white-space:normal;margin:3px -269px 5px 0px;transition-property:margin;transition-duration:.7s}
+      .fan drag-me {overflow: auto;white-space:normal;margin:3px -271px 5px 0px;transition-property:margin;transition-duration:.7s}
       .fan drag-me:hover,
       .fan drag-me:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.7s}
       .fan drag-me:hover + template + drag-me,
@@ -51,45 +51,48 @@
       <div class="fan">
         <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
-            <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" >
-            <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
-            <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
-            <span style="float:right">
-              <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-                <a href="{{item.test}}" target="_blank">
-                  <template is="dom-if" if="{{item.travis}}">
-                    <span inner-h-t-m-l={{item.travis}}></span>
+            <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" on-tap="load" >
+              <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
+                <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
+                <span style="float:right">
+                  <template is="dom-if" if="{{hasTest(item.name, tests)}}">
+                    <a href="{{item.test}}" target="_blank">
+                      <template is="dom-if" if="{{item.travis}}">
+                        <span inner-h-t-m-l={{item.travis}}></span>
+                      </template>
+                      <template is="dom-if" if="{{!item.travis}}">test</template>
+                    </a>
+                  </template> 
+                  <template is="dom-if" if="{{item.imports.usedBy.length}}">
+                    <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
                   </template>
-                  <template is="dom-if" if="{{!item.travis}}">test</template>
-                </a>
-              </template> 
-              <template is="dom-if" if="{{item.imports.usedBy.length}}">
-                <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
-              </template>
-              <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
-            </span>
-            <p style="clear:right">
-              <marked-element markdown="{{item.description}}"></marked-element>
-            </p>
-            <p>{{item.name}} is from {{item.gitUser}}</p>
-            <template is="dom-if" if="{{item.license}}">
-              <p>license:{{item.license}}</p>
-            </template>
-            <template is="dom-if" if="{{item.imports.usedBy.length}}">
-              <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
-            </template>
-            <ul>
-              <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
-                <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
-              </template>
-            </ul>
-          </paper-material>
+                  <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
+                </span>
+                <p style="clear:right">
+                  <marked-element markdown="{{item.description}}"></marked-element>
+                </p>
+                <p>{{item.name}} is from {{item.gitUser}}</p>
+                <template is="dom-if" if="{{item.imports.usedBy.length}}">
+                  <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
+                </template>
+                <ul>
+                  <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
+                    <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+                  </template>
+                </ul>
+                <template is="dom-if" if="{{item.license}}">
+                  <p>license:{{item.license}}</p>
+                </template>
+                <template is="dom-if" if="{{item.load}}">
+                  <git-time  ></git-time>
+                </template>
+              </paper-material>
             </drag-me>
           </template>
         </template>
       </div>  
     </template>
-    <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me I'm yours</a></p>
+    <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me now I'm yours</a></p>
     <add-element></add-element>
   </template>
 </dom-module>
@@ -135,7 +138,7 @@
         if (colors.hasOwnProperty(group)) {
           return colors[group]
         } else {
-          if (description && description.indexOf("wapper") > -1) {
+          if (description && description.indexOf("wrapper") > -1) {
             return colors.molecules
           } else {
             return "CCC"
@@ -313,6 +316,7 @@
           links: [{url:'/bower_components/polymer',title:'API Docs'},{url:'https://github.com/Polymer/polymer/polymer.html',title: "Github"}],
           test: '/bower_components/polymer/test/runner.html',
           log: '/bower_components/polymer/gitlog',
+          load: true,
           file: 'view-source:https://open-elements.org/bower_components/polymer/polymer.html'
         })
         return output
