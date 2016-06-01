@@ -84,7 +84,7 @@
                   <p>license:{{item.license}}</p>
                 </template>
                 <template is="dom-if" if="{{item.load}}">
-                  <git-time  ></git-time>
+                  <git-time url="{{item.log}}"></git-time>
                 </template>
               </paper-material>
             </drag-me>
