@@ -426,7 +426,7 @@
       this.set("levelList",JSON.parse(JSON.stringify(this.levelList)))
     },
     load: function(e) {
-      this.data[e.target.index].load = true
+      this.data[e.target.dataIndex].load = true
       this.set("data",JSON.parse(JSON.stringify(this.data)))
     }
   })
