@@ -49,7 +49,7 @@
     </template>
     <template is="dom-repeat" items="{{levelList}}" as="levelOn" sort="sortLevels">
       <div class="fan">
-        <template is="dom-repeat" initial-count="1" items="{{_output}}">
+        <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
             <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" on-tap="load" >
               <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
@@ -82,6 +82,9 @@
                 </ul>
                 <template is="dom-if" if="{{item.license}}">
                   <p>license:{{item.license}}</p>
+                </template>
+                <template is="dom-if" if="{{!item.load}}">
+                  tap me to load git time
                 </template>
                 <template is="dom-if" if="{{item.load}}">
                   <git-time url="{{item.log}}"></git-time>
@@ -296,12 +299,13 @@
               _file: file,
               test: '/'+path+'/'+folder+'/test/',
               log: '/'+path+'/'+folder+'/gitlog',
+              load: false,
               file: 'view-source:https://open-elements.org/'+path+'/'+folder+'/'+file
             })
           }
         }
         output.push({
-          name: "polymer",
+          name: "#UseThePlatform to build a better web",
           spacedTitle: "polymer".split("").join(" "),
           bower: "polymer",
           color: "3f51b5",
@@ -420,6 +424,10 @@
       }
       this.set("data",JSON.parse(JSON.stringify(this.data)))
       this.set("levelList",JSON.parse(JSON.stringify(this.levelList)))
+    },
+    load: function(e) {
+      this.data[e.target.index].load = true
+      this.set("data",JSON.parse(JSON.stringify(this.data)))
     }
   })
 </script>
