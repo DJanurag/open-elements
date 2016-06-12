@@ -19,6 +19,7 @@
       paper-material {overflow:auto;height:350px;width:267px;display:inline-block;background:#fff}
       .fan {text-align:left;white-space:nowrap;overflow-x:scroll}
       .fan drag-me {overflow: auto;white-space:normal;margin:3px -271px 5px 0px;transition-property:margin;transition-duration:.7s}
+      .fan[hand],
       .fan drag-me:hover,
       .fan drag-me:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.7s}
       .fan drag-me:hover + template + drag-me,
@@ -48,7 +49,7 @@
       </template>
     </template>
     <template is="dom-repeat" items="{{levelList}}" as="levelOn" sort="sortLevels">
-      <div class="fan">
+      <div class="fan" hand="{{willLayout(_output, levelOn)}}">
         <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
             <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" on-tap="load" >
@@ -118,6 +119,18 @@
       } else {
         return data.base
       }
+    },
+    willLayout: function(output, levelOn) {
+      var count = 0
+      for (var i = 0; i < output.length; ++i) {
+        if (output[ic].level === levelOn) {
+          count++
+        }
+        if (count > 7) {
+          return false
+        }
+      }
+      return true
     },
     isLevel: function(level, levelOn ) {
       return levelOn === level
