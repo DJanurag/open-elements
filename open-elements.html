@@ -19,9 +19,6 @@
       paper-material {overflow:auto;height:350px;width:267px;display:inline-block;background:#fff}
       .fan {text-align:left;white-space:nowrap;overflow-x:scroll}
       .fan drag-me {overflow: auto;white-space:normal;margin:3px -271px 5px 0px;transition-property:margin;transition-duration:.7s}
-      .fan.hand drag-me,
-      .fan drag-me:hover,
-      .fan drag-me:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.7s}
       .fan drag-me:hover + template + drag-me,
       .fan drag-me:focus + template + drag-me,
       .fan drag-me:hover + template + drag-me + template + drag-me,
@@ -35,6 +32,9 @@
       .fan drag-me:hover + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me,
       .fan drag-me:focus + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me + template + drag-me
       {margin:3px -240px 5px 0;transition-property:margin;transition-duration:.7s}
+      .fan.hand drag-me,
+      .fan drag-me:hover,
+      .fan drag-me:focus {margin:3px 0 5px;transition-property:margin;transition-duration:.7s}
     </style>
 
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
@@ -49,7 +49,7 @@
       </template>
     </template>
     <template is="dom-repeat" items="{{levelList}}" as="levelOn" sort="sortLevels">
-      <div class="fan {{willLayout(_output, levelOn)}}">
+      <div class$="fan {{willLayout(_output, levelOn)}}">
         <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
             <drag-me on-push-up="promote" on-push-down="demote" index="{{index}}" on-tap="load" >
