@@ -52,7 +52,7 @@
       <div class$="fan {{willLayout(_output, levelOn)}}">
         <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
-            <drag-me id="[[levelOn]][[index]]" on-push-up="promote" on-push-down="demote" index="[[index]]" on-tap="load" >
+            <drag-me tabindex="0" on-push-up="promote" on-push-down="demote" index="[[index]]" on-tap="load" >
               <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
                 <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
                 <span style="float:right">
@@ -266,10 +266,6 @@
               this.getResults(bowerFileUrl)
             }
           }
-        }
-        if (!this._first) {
-          this._first = true 
-          this.l0i0.focus()
         }
         return titles
       }
