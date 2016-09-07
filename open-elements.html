@@ -288,7 +288,7 @@
           var path = elements[i].split('/')
           var file = path.pop()
           var folder = path.pop()
-          if (file.indexOf("-") !== -1 && file === folder + ".html" ) {
+          if (file.indexOf("-") !== -1 && (file === folder + ".html" || "iron-demo-helpers" === folder) ) {
             isAnElement.push(folder)
           }
         }
