@@ -52,7 +52,7 @@
       <div class$="fan {{willLayout(_output, levelOn)}}">
         <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
-            <drag-me tabindex="0" on-push-up="promote" on-push-down="demote" index="[[index]]" on-tap="load" >
+            <drag-me tabindex="0" on-push-up="promote" on-push-down="demote" index="[[index]]">
               <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
                 <div style="width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
                 <span style="float:right">
@@ -84,12 +84,7 @@
                 <template is="dom-if" if="{{item.license}}">
                   <p>license:{{item.license}}</p>
                 </template>
-                <template is="dom-if" if="{{!item.load}}">
-                  tap me to load git time
-                </template>
-                <template is="dom-if" if="{{item.load}}">
-                  <git-time git-log-url="{{item.log}}"></git-time>
-                </template>
+                <git-time git-log-url="{{item.log}}"></git-time>
               </paper-material>
             </drag-me>
           </template>
@@ -333,7 +328,6 @@
           links: [{url:'/bower_components/polymer',title:'API Docs'},{url:'https://github.com/Polymer/polymer/polymer.html',title: "Github"}],
           test: '/bower_components/polymer/test/runner.html',
           log: '/bower_components/polymer/gitlog',
-          load: true,
           file: 'https://open-elements.org/bower_components/polymer/polymer.html'
         })
         return output
