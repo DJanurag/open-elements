@@ -57,11 +57,11 @@
               <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
                 <div style="position: absolute;width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
                 <span style="padding-left:40px">
-                  <span style="float:right">
+                  <div style="float:right">
                     <template is="dom-if" if="{{hasTest(item.name, tests)}}">
                       <a href="{{item.test}}" target="_blank">
                         <template is="dom-if" if="{{item.travis}}">
-                          <span inner-h-t-m-l={{item.travis}}></span>
+                          <span inner-h-t-m-l="{{item.travis}}"></span>
                         </template>
                         <template is="dom-if" if="{{!item.travis}}">test</template>
                       </a>
@@ -70,7 +70,7 @@
                       <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
                     </template>
                     <source-view url="{{item.file}}"></source-view>
-                  </span>
+                  </div>
                   <p style="clear:right">
                     <marked-element markdown="{{item.description}}"></marked-element>
                   </p>
