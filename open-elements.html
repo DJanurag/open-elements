@@ -38,7 +38,7 @@
     </style>
 
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
-    <paper-input label="Search (powered by lunr.js)" value={{search}}></paper-input>
+    <paper-input label="Search (powered by lunr.js)" value="{{search}}"></paper-input>
     
     <template is="dom-if" if="{{titles}}">
       <iron-ajax auto url="/imports" handle-as="text" last-response="{{imports}}"></iron-ajax>
@@ -67,7 +67,7 @@
                   <template is="dom-if" if="{{item.imports.usedBy.length}}">
                     <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
                   </template>
-                  <a href="{{item.file}}" target="_blank"><small>&lt/></small></a>
+                  <source-view url="{{item.file}}"></source-view>
                 </span>
                 <p style="clear:right">
                   <marked-element markdown="{{item.description}}"></marked-element>
