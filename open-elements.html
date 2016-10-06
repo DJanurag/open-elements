@@ -56,7 +56,7 @@
             <drag-me tabindex="0" on-push-up="promote" on-push-down="demote" index="[[index]]">
               <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
                 <div style="position: absolute;width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
-                <span style="padding-left:40px">
+                <div style="padding-left:40px">
                   <div style="float:right">
                     <template is="dom-if" if="{{hasTest(item.name, tests)}}">
                       <a href="{{item.test}}" target="_blank">
@@ -87,7 +87,7 @@
                     <p>license:{{item.license}}</p>
                   </template>
                   <git-time git-log-url="{{item.log}}"></git-time>
-                </span>
+                </div>
               </paper-material>
             </drag-me>
           </template>
