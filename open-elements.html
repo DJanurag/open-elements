@@ -1,13 +1,13 @@
-<link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../git-time/git-time.html">
-<link rel="import" href="../lunr-js/lunr-js.html">
-<link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../git-time/git-time.html">
-<link rel="import" href="../drag-me/drag-me.html">
 <link rel="import" href="../marked-element/marked-element.html">
 <link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../source-view/source-view.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../dark-side/dark-side.html">
+<link rel="import" href="../git-time/git-time.html">
+<link rel="import" href="../git-time/git-time.html">
+<link rel="import" href="../lunr-js/lunr-js.html">
+<link rel="import" href="../drag-me/drag-me.html">
 
 
   
@@ -54,43 +54,41 @@
       <div class$="fan {{willLayout(_output, levelOn)}}">
         <template is="dom-repeat" items="{{_output}}">
           <template is="dom-if" if="{{isLevel(item.level, levelOn)}}">
-            <drag-me tabindex="0" on-push-up="promote" on-push-down="demote" index="[[index]]">
-              <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
-                <div style="position: absolute;width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
-                <div style="padding-left:40px">
-                  <div style="float:right">
-                    <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-                      <a href="{{item.test}}" target="_blank">
-                        <template is="dom-if" if="{{item.travis}}">
-                          <span inner-h-t-m-l="{{item.travis}}"></span>
-                        </template>
-                        <template is="dom-if" if="{{!item.travis}}">test</template>
-                      </a>
-                    </template> 
-                    <template is="dom-if" if="{{item.imports.usedBy.length}}">
-                      <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
-                    </template>
-                    <source-view url="{{item.file}}"></source-view>
-                  </div>
-                  <p style="clear:right">
-                    <marked-element markdown="{{item.description}}"></marked-element>
-                  </p>
-                  <p>{{item.name}} is from {{item.gitUser}}</p>
-                    <template is="dom-if" if="{{item.imports.usedBy.length}}">
-                      <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
-                    </template>
-                  <ul>
-                    <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
-                      <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
-                    </template>
-                  </ul>
-                  <template is="dom-if" if="{{item.license}}">
-                    <p>license:{{item.license}}</p>
+            <paper-material elevation="4" data-index="{{index}}" style="border-left:#{{item.color}} 1px solid;">
+              <div style="position: absolute;width:40px;float:left;text-align:center;display:inline-block;word-wrap:break-word;overflow:hidden;padding:0px;font-size:large;letter-spacing:15px;height:350px">{{item.spacedTitle}}</div>
+              <div style="padding-left:40px">
+                <div style="float:right">
+                  <template is="dom-if" if="{{hasTest(item.name, tests)}}">
+                    <a href="{{item.test}}" target="_blank">
+                      <template is="dom-if" if="{{item.travis}}">
+                        <span inner-h-t-m-l="{{item.travis}}"></span>
+                      </template>
+                      <template is="dom-if" if="{{!item.travis}}">test</template>
+                    </a>
+                  </template> 
+                  <template is="dom-if" if="{{item.imports.usedBy.length}}">
+                    <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
                   </template>
-                  <git-time git-log-url="{{item.log}}"></git-time>
+                  <source-view url="{{item.file}}"></source-view>
                 </div>
-              </paper-material>
-            </drag-me>
+                <p style="clear:right">
+                  <marked-element markdown="{{item.description}}"></marked-element>
+                </p>
+                <p>{{item.name}} is from {{item.gitUser}}</p>
+                <template is="dom-if" if="{{item.imports.usedBy.length}}">
+                  <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
+                </template>
+                <ul>
+                  <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
+                    <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
+                  </template>
+                </ul>
+                <template is="dom-if" if="{{item.license}}">
+                  <p>license:{{item.license}}</p>
+                </template>
+                <git-time git-log-url="{{item.log}}"></git-time>
+              </div>
+            </paper-material>
           </template>
         </template>
       </div>  
