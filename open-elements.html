@@ -367,22 +367,6 @@
             // alert('Something went wrong.');
       });
     },
-    promote: function(e) {
-      this.setLevel(e,-1)
-    },
-    demote: function(e) {
-      this.setLevel(e, 1)
-    },
-    setLevel: function(e, change) {
-      var newlevel = +(this.data[e.detail.index].level) + change
-      this.data[e.detail.index].level = newlevel
-
-      if (this.levelList.indexOf(newlevel) === -1) {
-        this.levelList.push(newlevel)
-      }
-      this.set("data",JSON.parse(JSON.stringify(this.data)))
-      this.set("levelList",JSON.parse(JSON.stringify(this.levelList)))
-    },
     load: function(e) {
       this.data[e.target.dataIndex].load = true
       this.set("data",JSON.parse(JSON.stringify(this.data)))
