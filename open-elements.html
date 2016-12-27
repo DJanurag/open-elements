@@ -115,7 +115,7 @@
         for (attr in this._data[i]) {
           add[attr] = this._data[i][attr]
         }
-        if (!add.description && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("description")) {
+        if (!add.description && this.bowerData && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("description")) {
           add.description = this.bowerData[add._file].description
           add.main = true
         }
