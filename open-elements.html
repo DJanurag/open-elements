@@ -70,12 +70,11 @@
       levelList:{type:Array,value: [0]},
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
       _output: {computed:'getOutput(data.*,output.*,search)'},
-      __output: {computed:'debounceGotbower(_data)'},
+      __output: {computed:'debounceGotbower(_data, bowerData)'},
       output: {value:""},
       search: {value:""},
       titles: {computed:'getTitles(list)'}
     },
-    
     getOutput: function(data, output, search){
       if (search) {
         return output.base
@@ -119,11 +118,10 @@
           add.description = this.bowerData[add._file].description
           add.main = true
         }
-        if (!add.license && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("license")) {
+        if (!add.license && this.bowerData && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("license")) {
           add.license = this.bowerData[add._file].license
         }
         add.color = pickColor(add.name, add.description)
-        console.log(this.bowerData[add._file])
         data.push(add)
       }
       this.set("data", data)
@@ -253,8 +251,6 @@
             }
             output.push({
               name: file.replace('.html',''),
-              spacedTitle: file.replace('.html','').split("").join(" "),
-              level: 0,
               links: [{url:'/'+path+'/'+folder, title: 'Docs'}],
               _folder: folder,
               _file: file,
@@ -267,7 +263,6 @@
         }
         output.push({
           name: "#UseThePlatform to build a better web",
-          spacedTitle: "polymer".split("").join(" "),
           bower: "polymer",
           color: "3f51b5",
           level: 0,
