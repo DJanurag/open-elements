@@ -11,6 +11,10 @@
 
 <dom-module id="open-elements">
   <template>
+    <style>
+      paper-material {overflow:auto;height:350px;width:267px;display:inline-block;background:#000}
+    </style>
+
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <paper-input label="Search (powered by lunr.js)" value="{{search}}"></paper-input>
     
@@ -19,13 +23,10 @@
       <iron-ajax auto url="/tests" handle-as="text" last-response="{{tests}}"></iron-ajax>
       <iron-ajax auto url="/gitList" handle-as="text" last-response="{{gitList}}"></iron-ajax>
       <template is="dom-if" if="{{data}}">
-        <lunr-js no-stop-words data="[[data]]" fields='["name","description","gitUser"]' search="[[search]]" output="{{output}}" ></lunr-js>
+        <lunr-js no-stop-words data="{{data}}" fields='["name","description","gitUser"]' search="{{search}}" output="{{output}}" ></lunr-js>
       </template>
     </template>
-    <template is="dom-if" if="{{!search}}">
-      <h1>search!</h1>
-    </template>
-    <template is="dom-repeat" items="[[output]]">
+    <template is="dom-repeat" items="{{_output}}">
       <div>
         <template is="dom-if" if="{{hasTest(item.name, tests)}}">
           <a href="{{item.test}}" target="_blank">
@@ -42,17 +43,17 @@
         <p style="clear:right">
           <marked-element markdown="{{item.description}}"></marked-element>
         </p>
-        <p>[[item.name]] <template is="dom-if" if="[[item.gitUser]]">form : [[item.gitUser]] </template></p>
-        <template is="dom-if" if="[[item.imports.usedBy.length]]">
-          <a title="[[title(item.imports.users)]]">Users elements [[item.imports.users.length]]</a>
+        <p>{{item.name}} is from {{item.gitUser}}</p>
+        <template is="dom-if" if="{{item.imports.usedBy.length}}">
+          <a title="{{title(item.imports.users)}}">Users elements {{item.imports.users.length}}</a>
         </template>
         <ul>
-          <template is="dom-repeat" items="[[item.links]]" as="link" restamp>
-            <li><a href="[[link.url]]" target="_blank">[[link.title]]</a></li>
+          <template is="dom-repeat" items="{{item.links}}" as="link" restamp>
+            <li><a href="{{link.url}}" target="_blank">{{link.title}}</a></li>
           </template>
         </ul>
-        <template is="dom-if" if="[[item.license]]">
-          <p>[[item.license]]</p>
+        <template is="dom-if" if="{{item.license}}">
+          <p>license:{{item.license}}</p>
         </template>
         <git-time git-log-url="{{item.log}}"></git-time>
       </div>
@@ -67,9 +68,17 @@
       level:{type:Number,value: 0},
       levelList:{type:Array,value: [0]},
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
+      _output: {computed:'getOutput(data.*,output.*,search)'},
       output: {value:""},
       search: {value:""},
       titles: {computed:'getTitles(list)'}
+    },
+    getOutput: function(data, output, search){
+      if (search) {
+        return output.base
+      } else {
+        return data.base
+      }
     },
     debounceGotbower: function(){
       this.debounce("setInput", this.setInput, 1200)
@@ -250,6 +259,7 @@
           name: "#UseThePlatform to build a better web",
           bower: "polymer",
           color: "3f51b5",
+          level: 0,
           gitUser: "Polymer",
           main: true,
           _file: "polymer.html",
