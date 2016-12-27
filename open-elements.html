@@ -58,7 +58,6 @@
         <git-time git-log-url="{{item.log}}"></git-time>
       </div>
     </template>
-    <p><a href="https://github.com/marcus7777/open-elements/edit/master/open-elements.html">Fork me now I'm yours</a></p>
   </template>
 </dom-module>
 <script>
@@ -119,11 +118,10 @@
           add.description = this.bowerData[add._file].description
           add.main = true
         }
-        if (!add.license && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("license")) {
+        if (!add.license && this.bowerData && this.bowerData.hasOwnProperty(add._file) && this.bowerData[add._file].hasOwnProperty("license")) {
           add.license = this.bowerData[add._file].license
         }
         add.color = pickColor(add.name, add.description)
-        console.log(this.bowerData[add._file])
         data.push(add)
       }
       this.set("data", data)
@@ -366,7 +364,6 @@
           }
         }
       }, function(status) { //error detection....
-            // alert('Something went wrong.');
       });
     },
     load: function(e) {
