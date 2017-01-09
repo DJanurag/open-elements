@@ -38,7 +38,7 @@
       <h1>search!</h1>
     </template>
     <template is="dom-repeat" items="[[output]]">
-      <paper-material>
+      <paper-material elevation="2">
         <template is="dom-if" if="{{hasTest(item.name, tests)}}">
           <a href="{{item.test}}" target="_blank">
             <template is="dom-if" if="{{item.travis}}">
