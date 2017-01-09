@@ -5,6 +5,7 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../git-time/git-time.html">
 <link rel="import" href="../lunr-js/lunr-js.html">
+
 <!-- 
 `<open-elements></open-elements>` 
 -->
@@ -26,7 +27,7 @@
       <h1>search!</h1>
     </template>
     <template is="dom-repeat" items="[[output]]">
-      <div>
+      <paper-material>
         <template is="dom-if" if="{{hasTest(item.name, tests)}}">
           <a href="{{item.test}}" target="_blank">
             <template is="dom-if" if="{{item.travis}}">
@@ -55,7 +56,7 @@
           <p>[[item.license]]</p>
         </template>
         <git-time git-log-url="{{item.log}}"></git-time>
-      </div>
+      </paper-material>
     </template>
   </template>
 </dom-module>
