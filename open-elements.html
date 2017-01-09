@@ -12,6 +12,17 @@
 
 <dom-module id="open-elements">
   <template>
+    <style>
+      paper-material {
+        background-color: #fafafa;
+        color: #212121;
+        height: 260px;
+        width: 200px;
+        display: inline-block;
+        margin: 5px;
+        overflow: auto;
+      }
+    </style>
     <iron-ajax auto url="/list-of-elements" handle-as="text" last-response="{{list}}"></iron-ajax>
     <paper-input label="Search (powered by lunr.js)" value="{{search}}"></paper-input>
     
