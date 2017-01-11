@@ -86,8 +86,16 @@
       search: {value:""},
       titles: {computed:'getTitles(list)'}
     },
-    makeEditable: function(e){ 
-      debugger;
+    makeEditable: function(e){
+      if (e.target.parentNode.querySelector("pair-production")) {
+        e.target.parentNode.querySelector("pair-production").makeEditable()
+      } else if (e.target.parentNode.parentNode.querySelector("pair-production")) {
+        e.target.parentNode.parentNode.querySelector("pair-production").makeEditable()
+      } else if (e.target.parentNode.parentNode.parentNode.querySelector("pair-production")) {
+        e.target.parentNode.parentNode.parentNode.querySelector("pair-production").makeEditable()
+      } else if (e.target.parentNode.parentNode.parentNode.parentNode.querySelector("pair-production")) {
+        e.target.parentNode.parentNode.parentNode.parentNode.querySelector("pair-production").makeEditable()
+      } 
     },
     debounceGotbower: function(){
       this.debounce("setInput", this.setInput, 1200)
