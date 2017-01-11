@@ -39,23 +39,23 @@
       <h1>search!</h1>
     </template>
     <template is="dom-repeat" items="[[output]]">
-      <paper-material elevation="2">
-        <pair-production short just-load element-data='{"html":"<style>[[item.name]]{background:#ffff99;}</style><[[item.name]]></[[item.name]]>"}'
+      <paper-material elevation="2" on-tap="makeEditable" index="[[index]]">
+        <pair-production short editable="[[item.editable]]" just-load element-data='{"html":"<style>[[item.name]]{background:#ffff99;}</style><[[item.name]]></[[item.name]]>"}'
                          list-of-elements='[[list]]' git-list='[[gitList]]'></pair-production>
         <template is="dom-if" if="{{hasTest(item.name, tests)}}">
           <a href="{{item.test}}" target="_blank">
             <template is="dom-if" if="{{item.travis}}">
               <span inner-h-t-m-l="{{item.travis}}"></span>
             </template>
-            <template is="dom-if" if="{{!item.travis}}">test</template>
+            <template is="dom-if" if="[[!item.travis]]">test</template>
           </a>
         </template> 
-        <template is="dom-if" if="{{item.imports.usedBy.length}}">
-          <small>used by</small><a title="{{title(item.imports.usedBy)}}" target="_blank"> {{item.imports.usedBy.length}} </a>
+        <template is="dom-if" if="[[item.imports.usedBy.length]]">
+          <small>used by</small><a title="[[title(item.imports.usedBy)]]" target="_blank"> [[item.imports.usedBy.length]] </a>
         </template>
-        <source-view url="{{item.file}}"></source-view>
+        <source-view url="[[item.file]]"></source-view>
         <p style="clear:right">
-          <marked-element markdown="{{item.description}}"></marked-element>
+          <marked-element markdown="[[item.description]]"></marked-element>
         </p>
         <p>[[item.name]] <template is="dom-if" if="[[item.gitUser]]">form : [[item.gitUser]] </template></p>
         <template is="dom-if" if="[[item.imports.usedBy.length]]">
@@ -85,6 +85,9 @@
       output: {value:""},
       search: {value:""},
       titles: {computed:'getTitles(list)'}
+    },
+    makeEditable: function(e){ 
+      debugger;
     },
     debounceGotbower: function(){
       this.debounce("setInput", this.setInput, 1200)
