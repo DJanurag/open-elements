@@ -40,7 +40,7 @@
     </template>
     <template is="dom-repeat" items="[[output]]">
       <paper-material elevation="2">
-        <pair-production short just-load editable element-data='{"html":"<style>[[item.name]]{background:#ffff99;}</style><[[item.name]]></[[item.name]]>"}'
+        <pair-production short just-load element-data='{"html":"<style>[[item.name]]{background:#ffff99;}</style><[[item.name]]></[[item.name]]>"}'
                          list-of-elements='[[list]]' git-list='[[gitList]]'></pair-production>
         <template is="dom-if" if="{{hasTest(item.name, tests)}}">
           <a href="{{item.test}}" target="_blank">
