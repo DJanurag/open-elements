@@ -235,10 +235,10 @@
         return title.join("\n").replace(new RegExp("bower_components/", 'g'),"")
       }
     },
-    getHtmlFor(name){
+    getHtmlFor: function(name){
       // check local and firebace for updates
       return {html:"<style> "+name+" \n{background:#ff6;}</style>\n<"+name+"></"+name+">"}
-    }
+    },
     getTitles: function(list) { 
       if (list) {
         var output = []
