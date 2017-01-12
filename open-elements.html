@@ -147,15 +147,15 @@
         var importsList = imports.split('\n')
         var dataList = gitList.split('\n')
         function travisBadge(bowerName, fromGitUser) { 
-          if (dataList.indexOf('bower_components/'+bowerName+'/.travis.yml') !== -1) {
+          if (dataList.indexOf('/bower_components/'+bowerName+'/.travis.yml') !== -1) {
             return '<img src="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'.svg" title="travis" />' // <a href="https://travis-ci.org/'+fromGitUser+'/'+bowerName+'"></a>'
           } else {
             return false
           }
         }
         function bowerFile(bowerName) { 
-          if (dataList.indexOf('bower_components/'+bowerName+'/bower.json') !== -1) {
-            return 'bower_components/'+bowerName+'/bower.json'
+          if (dataList.indexOf('/bower_components/'+bowerName+'/bower.json') !== -1) {
+            return '/bower_components/'+bowerName+'/bower.json'
           } else {
             return false
           }
