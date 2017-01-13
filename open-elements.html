@@ -237,7 +237,19 @@
     },
     getHtmlFor: function(name){
       // check local and firebace for updates
-      return {html:"<style> "+name+" \n{background:#ff6;}</style>\n<"+name+"></"+name+">"}
+      if (this.smDemos && this.smDemos.hasOwnProperty(name)) {
+        if (this.smDemos[name]) {
+          return {
+            html:""+this.smDemos[name],
+            name: name+"-sm-demo"
+          }
+        }
+      } else {
+        return {
+          html:"<style> "+name+" \n{background:#ff6;}</style>\n<"+name+"></"+name+">",
+          name: name+"-sm-demo"
+        }
+      }
     },
     getTitles: function(list) { 
       if (list) {
