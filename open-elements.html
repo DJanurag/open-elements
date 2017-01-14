@@ -1,6 +1,7 @@
 <link rel="import" href="../pair-production/pair-production.html">
 <link rel="import" href="../marked-element/marked-element.html">
 <link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../paper-slider/paper-slider.html">
 <link rel="import" href="../source-view/source-view.html">
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
@@ -74,7 +75,9 @@
         <git-time git-log-url="{{item.log}}"></git-time>
       </paper-material>
     </template>
-    <paper-slider min="0" max="[[totalPages]]" value="{{page}}"></paper-slider>
+    <template is="dom-if" if="[[totalPages]]">
+      <paper-slider min="0" max="[[totalPages]]" value="{{page}}"></paper-slider>
+    </template>
   </template>
 </dom-module>
 <script>
@@ -93,7 +96,7 @@
       outputPaged: {computed:'getOutputPaged(output,page)'},
     },
     getTotalPages: function(items) {
-      return Math.ceil(items/5)
+      return Math.floor(items/5)
     },
     getOutputPaged: function(output,page) {
       return output.slice((page*5),(page*5)+5)
