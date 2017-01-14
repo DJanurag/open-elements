@@ -96,10 +96,10 @@
       outputPaged: {computed:'getOutputPaged(output,page)'},
     },
     getTotalPages: function(items) {
-      return Math.floor(items/5)
+      return Math.floor((items-1)/6)
     },
     getOutputPaged: function(output,page) {
-      return output.slice((page*5),(page*5)+5)
+      return output.slice((page*6),(page*6)+6)
     },
     makeEditable: function(e){
       if (e.target.parentNode.querySelector("pair-production")) {
