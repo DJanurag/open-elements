@@ -18,7 +18,8 @@
         background-color: #fafafa;
         color: #212121;
         height: 260px;
-        width: 200px;
+        min-width: 200px;
+        width: 31%;
         display: inline-block;
         margin: 5px;
         overflow: auto;
@@ -39,7 +40,7 @@
     <template is="dom-if" if="{{!search}}">
       <h1>search!</h1>
     </template>
-    <template is="dom-repeat" items="[[output]]">
+    <template is="dom-repeat" items="[[outputPaged]]">
       <paper-material elevation="2" on-tap="makeEditable" index="[[index]]">
         <pair-production short editable="[[item.editable]]" just-load element-data='[[getHtmlFor(item.name)]]'
                          list-of-elements='[[list]]' git-list='[[gitList]]'></pair-production>
@@ -73,6 +74,7 @@
         <git-time git-log-url="{{item.log}}"></git-time>
       </paper-material>
     </template>
+    <paper-slider min="0" max="[[totalPages]]" value="{{page}}"></paper-slider>
   </template>
 </dom-module>
 <script>
@@ -85,7 +87,16 @@
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
       output: {value:""},
       search: {value:""},
-      titles: {computed:'getTitles(list)'}
+      titles: {computed:'getTitles(list)'},
+      page: {value:0},
+      totalPages: {computed:'getTotalPages(output.length)'},
+      outputPaged: {computed:'getOutputPaged(output,page)'},
+    },
+    getTotalPages: function(items) {
+      return Math.ceil(items/5)
+    },
+    getOutputPaged: function(output,page) {
+      return output.slice((page*5),(page*5)+5)
     },
     makeEditable: function(e){
       if (e.target.parentNode.querySelector("pair-production")) {
