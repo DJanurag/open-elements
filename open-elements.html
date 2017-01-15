@@ -277,12 +277,14 @@
       if (this.smDemos && this.smDemos.hasOwnProperty(name)) {
         if (this.smDemos[name]) {
           return {
+            title: name,
             html:""+this.smDemos[name],
             name: name+"-sm-demo"
           }
         }
       } else {
         return {
+          title: name,
           html:"<style> "+name+" \n{background:#ff6;}</style>\n<"+name+"></"+name+">",
           name: name+"-sm-demo"
         }
