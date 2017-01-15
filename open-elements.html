@@ -76,7 +76,11 @@
       </paper-material>
     </template>
     <template is="dom-if" if="[[totalPages]]">
-      <paper-slider min="0" max="[[totalPages]]" value="{{page}}"></paper-slider>
+      <paper-stepper>
+        <template is="dom-repeat-n" count="[[totalPages]]">
+          <paper-step></paper-step>
+        </template>
+      </paper-stepper>
     </template>
   </template>
 </dom-module>
@@ -96,7 +100,11 @@
       outputPaged: {computed:'getOutputPaged(output,page)'},
     },
     getTotalPages: function(items) {
-      return Math.floor((items-1)/6)
+      if (items>6) {
+        return Math.ceil((items-1)/6)
+      } else {
+        return 0
+      }
     },
     getOutputPaged: function(output,page) {
       return output.slice((page*6),(page*6)+6)
