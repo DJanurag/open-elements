@@ -114,7 +114,8 @@
           "paper-spinner":"<style> paper-spinner \n{background:#ff6;}</style>\n<paper-spinner active></paper-spinner>",
           "paper-spinner-lite":"<style> paper-spinner-lite \n{background:#ff6;}</style>\n<paper-spinner-lite active></paper-spinner-lite>",
           "google-map-search":"<style> \n  google-map {\n    height: 300px;\n  }\n  google-map-search \n{background:#ff6;}</style>\n<paper-input label=\"search! than move map to see bug\" value=\"{{value}}\"></paper-input>\n<google-map-search map=\"[[map]]\" query=\"[[value]]\" results=\"{{results}}\"></google-map-search>\n<google-map map=\"{{map}}\" latitude=\"37.779\" longitude=\"-122.3892\">\n  <template is=\"dom-repeat\" items=\"[[results]]\" as=\"marker\">\n    <google-map-marker latitude=\"[[marker.latitude]]\" longitude=\"[[marker.longitude]]\">\n      <h2>[[marker.name]]</h2>\n      <span>[[marker.formatted_address]]</span>\n    </google-map-marker>\n  </template>\n</google-map>",
-          
+          "paper-stepper":"<style> paper-stepper \n{background:#ff6;}</style>\n<paper-stepper selected=\"{{a}}\">\n  <paper-step>\n  </paper-step>\n  <paper-step>\n  </paper-step>\n  <paper-step>\n  </paper-step>\n</paper-stepper>\n[[a]]",
+          "polymer": "",
         }
       },
     },
