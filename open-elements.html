@@ -299,7 +299,7 @@
     },
     getHtmlFor: function(element){
       var name = element.name
-      var color = element.color
+      var color = "#" + element.color
       // check local and firebace for updates
       if (this.smDemos && this.smDemos.hasOwnProperty(name)) {
         if (this.smDemos[name]) {
