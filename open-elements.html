@@ -43,38 +43,40 @@
       <h1>search!</h1>
     </template>
     <template is="dom-repeat" items="[[outputPaged]]" id="thePage">
-      <paper-material elevation="2" on-tap="makeEditable" index="[[index]]">
-        <pair-production short editable="[[item.editable]]" just-load element-data='[[getHtmlFor(item)]]'
-                         list-of-elements='[[list]]' git-list='[[gitList]]'></pair-production>
-        <template is="dom-if" if="{{hasTest(item.name, tests)}}">
-          <a href="{{item.test}}" target="_blank">
-            <template is="dom-if" if="{{item.travis}}">
-              <span inner-h-t-m-l="{{item.travis}}"></span>
-            </template>
-            <template is="dom-if" if="[[!item.travis]]">test</template>
-          </a>
-        </template> 
-        <template is="dom-if" if="[[item.imports.usedBy.length]]">
-          <small>used by</small><a title="[[title(item.imports.usedBy)]]" target="_blank"> [[item.imports.usedBy.length]] </a>
-        </template>
-        <source-view url="[[item.file]]"></source-view>
-        <p style="clear:right">
-          <marked-element markdown="[[item.description]]"></marked-element>
-        </p>
-        <p>[[item.name]] <template is="dom-if" if="[[item.gitUser]]">form : [[item.gitUser]] </template></p>
-        <template is="dom-if" if="[[item.imports.usedBy.length]]">
-          <a title="[[title(item.imports.users)]]">Users elements [[item.imports.users.length]]</a>
-        </template>
-        <ul>
-          <template is="dom-repeat" items="[[item.links]]" as="link" restamp>
-            <li><a href="[[link.url]]" target="_blank">[[link.title]]</a></li>
+      <template is="dom-if" if="{{show}}" restamp>
+        <paper-material elevation="2" on-tap="makeEditable" index="[[index]]">
+          <pair-production short editable="[[item.editable]]" just-load element-data='[[getHtmlFor(item)]]'
+                           list-of-elements='[[list]]' git-list='[[gitList]]'></pair-production>
+          <template is="dom-if" if="{{hasTest(item.name, tests)}}">
+            <a href="{{item.test}}" target="_blank">
+              <template is="dom-if" if="{{item.travis}}">
+                <span inner-h-t-m-l="{{item.travis}}"></span>
+              </template>
+              <template is="dom-if" if="[[!item.travis]]">test</template>
+            </a>
+          </template> 
+          <template is="dom-if" if="[[item.imports.usedBy.length]]">
+            <small>used by</small><a title="[[title(item.imports.usedBy)]]" target="_blank"> [[item.imports.usedBy.length]] </a>
           </template>
-        </ul>
-        <template is="dom-if" if="[[item.license]]">
-          <p>[[item.license]]</p>
-        </template>
-        <git-time git-log-url="{{item.log}}"></git-time>
-      </paper-material>
+          <source-view url="[[item.file]]"></source-view>
+          <p style="clear:right">
+            <marked-element markdown="[[item.description]]"></marked-element>
+          </p>
+          <p>[[item.name]] <template is="dom-if" if="[[item.gitUser]]">form : [[item.gitUser]] </template></p>
+          <template is="dom-if" if="[[item.imports.usedBy.length]]">
+            <a title="[[title(item.imports.users)]]">Users elements [[item.imports.users.length]]</a>
+          </template>
+          <ul>
+            <template is="dom-repeat" items="[[item.links]]" as="link" restamp>
+              <li><a href="[[link.url]]" target="_blank">[[link.title]]</a></li>
+            </template>
+          </ul>
+          <template is="dom-if" if="[[item.license]]">
+            <p>[[item.license]]</p>
+          </template>
+          <git-time git-log-url="{{item.log}}"></git-time>
+        </paper-material>
+      </template>
     </template>
     <template is="dom-if" if="[[totalPages]]">
       <paper-stepper selected="{{page}}">
@@ -95,6 +97,7 @@
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
       output: {value:""},
       search: {value:""},
+      show: {value:true},
       titles: {computed:'getTitles(list,noListing)'},
       page: {value:0},
       cardsOnAPage:{value:6},
@@ -134,6 +137,8 @@
       }
     },
     getOutputPaged: function(output, page, cardsOnAPage) {
+      this.set("show",false)
+      this.set("show",true)
       return output.slice((page*cardsOnAPage),(page*cardsOnAPage)+cardsOnAPage)
     },
     makeEditable: function(e){
