@@ -45,10 +45,8 @@
     <template is="dom-repeat" items="[[outputPaged]]" id="thePage">
       <template is="dom-if" if="[[show]]" restamp>
         <paper-material elevation="2" on-tap="makeEditable" index="[[index]]">
-          <template is="dom-if" if="[[getHtmlFor(item)]]">
-            <pair-production short editable="[[item.editable]]" just-load element-data='[[getHtmlFor(item)]]'
+          <pair-production short editable="[[item.editable]]" just-load element-data='[[getHtmlFor(item)]]'
             list-of-elements='[[list]]' git-list='[[gitList]]'></pair-production>
-          </template>
           <template is="dom-if" if="{{hasTest(item.name, tests)}}">
             <a href="{{item.test}}" target="_blank">
               <template is="dom-if" if="{{item.travis}}">
