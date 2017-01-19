@@ -97,8 +97,9 @@
       search: {value:""},
       titles: {computed:'getTitles(list,noListing)'},
       page: {value:0},
-      totalPages: {computed:'getTotalPages(output.length)'},
-      outputPaged: {computed:'getOutputPaged(output,page)'},
+      cardsOnAPage:{value:6},
+      totalPages: {computed:'getTotalPages(output.length,cardsOnAPage)'},
+      outputPaged: {computed:'getOutputPaged(output,page,cardsOnAPage)'},
       smDemos: {value:
         {
           "google-map":"<style>\n  google-map {\n    height: 200px\n  }\n</style>\n<google-map latitude=\"37.77493\" longitude=\"-122.41942\" ></google-map>",
@@ -125,15 +126,15 @@
         value: ["paper-icon-stepper","demo-sm","demo-pages-shared-styles","demo-btn","demo-pages"]
       }
     },
-    getTotalPages: function(items) {
-      if (items>6) {
-        return Math.ceil((items-1)/6)
+    getTotalPages: function(items, cardsOnAPage) {
+      if (items>cardsOnAPage) {
+        return Math.ceil((items-1)/cardsOnAPage)
       } else {
         return 0
       }
     },
-    getOutputPaged: function(output,page) {
-      return output.slice((page*6),(page*6)+6)
+    getOutputPaged: function(output, page, cardsOnAPage) {
+      return output.slice((page*cardsOnAPage),(page*cardsOnAPage)+cardsOnAPage)
     },
     makeEditable: function(e){
       if (e.target.parentNode.querySelector("pair-production")) {
