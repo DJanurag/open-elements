@@ -138,7 +138,12 @@
     },
     getOutputPaged: function(output, page, cardsOnAPage) {
       this.set("show",false)
-      this.set("show",true)
+      
+      var that = this
+      setTimeout(function(){
+        that.set("show",true)
+      },100)
+      
       return output.slice((page*cardsOnAPage),(page*cardsOnAPage)+cardsOnAPage)
     },
     makeEditable: function(e){
