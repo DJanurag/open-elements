@@ -126,8 +126,6 @@
       }
     },
     getOutputPaged: function(output,page) {
-      var that = this
-      setTimeout(function(){ that.$.thePage.render() }, 300)
       return output.slice((page*6),(page*6)+6)
     },
     makeEditable: function(e){
