@@ -44,7 +44,7 @@
     </template>
     <template is="dom-repeat" items="[[outputPaged]]" id="thePage">
       <paper-material elevation="2" on-tap="makeEditable" index="[[index]]">
-        <pair-production short editable="[[item.editable]]" just-load element-data='[[getHtmlFor(item.name)]]'
+        <pair-production short editable="[[item.editable]]" just-load element-data='[[getHtmlFor(item)]]'
                          list-of-elements='[[list]]' git-list='[[gitList]]'></pair-production>
         <template is="dom-if" if="{{hasTest(item.name, tests)}}">
           <a href="{{item.test}}" target="_blank">
@@ -284,7 +284,9 @@
         return title.join("\n").replace(new RegExp("bower_components/", 'g'),"")
       }
     },
-    getHtmlFor: function(name){
+    getHtmlFor: function(element){
+      var name = element.name
+      var color = element.color
       // check local and firebace for updates
       if (this.smDemos && this.smDemos.hasOwnProperty(name)) {
         if (this.smDemos[name]) {
@@ -299,6 +301,7 @@
           title: name,
           html:"<style> "+name+" \n{background:#ff6;}</style>\n<"+name+"></"+name+">",
           name: name+"-sm-demo"
+          color: color
         }
       }
     },
