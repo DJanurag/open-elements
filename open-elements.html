@@ -77,7 +77,7 @@
       </paper-material>
     </template>
     <template is="dom-if" if="[[totalPages]]">
-      <paper-stepper selected="{{pages}}">
+      <paper-stepper selected="{{page}}">
         <template is="dom-repeat-n" count="[[totalPages]]">
           <paper-step></paper-step>
         </template>
