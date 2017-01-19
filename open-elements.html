@@ -95,7 +95,7 @@
       _data: {computed:'getRemoteData(titles, imports, gitList)'},
       output: {value:""},
       search: {value:""},
-      titles: {computed:'getTitles(list)'},
+      titles: {computed:'getTitles(list,noListing)'},
       page: {value:0},
       totalPages: {computed:'getTotalPages(output.length)'},
       outputPaged: {computed:'getOutputPaged(output,page)'},
@@ -121,6 +121,9 @@
 
         }
       },
+      noListing: {
+        value: ["paper-icon-stepper","demo-sm","demo-pages-shared-styles","demo-btn"]
+      }
     },
     getTotalPages: function(items) {
       if (items>6) {
@@ -299,7 +302,7 @@
         }
       }
     },
-    getTitles: function(list) { 
+    getTitles: function(list, noListing) { 
       if (list) {
         var output = []
         var isAnElement= []
@@ -316,24 +319,26 @@
         for (var i = 0; i < elements.length; ++i) {
           var path = elements[i].split('/')
           var file = path.pop()
-          var folder = path.pop()
-          if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
-            if (elements.indexOf("bower_components/"+folder+"/"+folder+".html") !== -1 || elements.indexOf("bower_components/"+folder+"/index.html") !== -1) {
-              docs = true
+          if (noListing.indexOf(file.replace('.html','')) == -1) {
+            var folder = path.pop()
+            if (isAnElement.indexOf(folder) !== -1 && file.indexOf("-") !== -1) {
+              if (elements.indexOf("bower_components/"+folder+"/"+folder+".html") !== -1 || elements.indexOf("bower_components/"+folder+"/index.html") !== -1) {
+                docs = true
+              }
+              if (folder === file.replace('.html','')) {
+                main = true
+              }
+              output.push({
+                name: file.replace('.html',''),
+                links: [{url:'/'+path+'/'+folder, title: 'Docs'}],
+                _folder: folder,
+                _file: file,
+                test: '/'+path+'/'+folder+'/test/',
+                log: '/'+path+'/'+folder+'/gitlog',
+                load: false,
+                file: 'https://open-elements.org/'+path+'/'+folder+'/'+file
+              })
             }
-            if (folder === file.replace('.html','')) {
-              main = true
-            }
-            output.push({
-              name: file.replace('.html',''),
-              links: [{url:'/'+path+'/'+folder, title: 'Docs'}],
-              _folder: folder,
-              _file: file,
-              test: '/'+path+'/'+folder+'/test/',
-              log: '/'+path+'/'+folder+'/gitlog',
-              load: false,
-              file: 'https://open-elements.org/'+path+'/'+folder+'/'+file
-            })
           }
         }
         output.push({
