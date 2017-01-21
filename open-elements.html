@@ -13,7 +13,6 @@
 <!-- 
 `<open-elements></open-elements>` 
 -->
-
 <dom-module id="open-elements">
   <template>
     <style>
@@ -226,7 +225,7 @@
           }
         }
         function gitUser(bowerName) { 
-          var re = new RegExp('([^/]*)(?:/'+bowerName+'\.git)','gi')
+          var re = new RegExp('([^/|:]*)(?:/'+bowerName+'\.git)','gi')
           var found = re.exec(gitList)
           
           if (found) {
