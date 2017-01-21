@@ -134,6 +134,7 @@
       }
     },
     getTotalPages: function(items, cardsOnAPage) {
+      this.page = 0 // reset to 0 if number of items change
       if (items>cardsOnAPage) {
         return Math.ceil((items-1)/cardsOnAPage)
       } else {
