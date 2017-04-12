@@ -312,7 +312,7 @@
       var color = "#" + element.color
       // check local and firebace for updates
       if (this.smDemos && this.smDemos.hasOwnProperty(name)) {
-        if (this.smDemos[name].startWith("https://open-elements.org/bower_components/pair-production/demo.html#~")) {
+        if (this.smDemos[name].startsWith("https://open-elements.org/bower_components/pair-production/demo.html#~")) {
           return {link:this.smDemos[name]}
         } else if (this.smDemos[name]){
           return {
