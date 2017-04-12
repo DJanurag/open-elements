@@ -132,6 +132,7 @@
           "polymer-quill":"<style is=\"custom-style\">\n  polymer-quill.full {\n    --polymer-quill-editor-max-height: 400px;\n    --polymer-quill-editor-min-height: 150px;\n  }\n</style>\n<polymer-quill content='{\"ops\":[{\"insert\":\"Hello World! - Store as Delta\"},{\"attributes\":{\"header\":2},\"insert\":\"\\n\"}]}'\n  class='full' store-as=\"delta\" toolbar-type=\"full\" html=\"{{html}}\">\n</polymer-quill>\n<polymer-quill-html-render content='{{html}}'></polymer-quill-html-render>",
           "app-toolbar":"<style> app-toolbar \n{background:#ff6;}</style>\n<app-toolbar>\n  <paper-icon-button icon=\"menu\"></paper-icon-button>\n  <div main-title>App name</div>\n  <paper-icon-button icon=\"search\"></paper-icon-button>\n</app-toolbar>",
           "paper-button-group":"<style> paper-button-group \n{background:#ff6;}</style>\n<paper-button-group selected=\"{{a}}\">\n  <paper-button name=\"small\">Small</paper-button>\n  <paper-button name=\"medium\">Medium</paper-button>\n  <paper-button name=\"large\">Large</paper-button>\n</paper-button-group>\n{{a}}",
+          "iron-collapse":"https://open-elements.org/bower_components/pair-production/demo.html#~(*7b9title5Q3html5*3cstyle*3e2Q2*5cn*7bbackground*3a*23ff6*3b*7d*3c*2fstyle*3e*5cn*3cbutton2on-tap*3d*5c9toggle*5c9*3etoggle2Zlapse*3c*2fbutton*3e*5cn*3cQ2id*3d*5c9Zlapse*5c9*3e0*3cdiv*3eContent2goes2here...*3c*2fdiv*3e*5cn*3c*2fQ*3e3name5Q-sm-demo3Zor5*2381c7843dependencies5polymer*2ciron-icons3description5demo3attrsForDemo53desc502202202203dependenciesDemo53functions9*3a*7b9toggle9*3a*7b9body5this.!.Zlapse.toggle*28*299*7d*7d*7d~(~'Qeeiron-Zlapse~'Zeecol~'0ee*5cn22~'2*20~'3ee9*2c9~'5ee9*3a9~'9*22))"
         }
       },
       /* if not need outside of the element */
@@ -311,7 +312,9 @@
       var color = "#" + element.color
       // check local and firebace for updates
       if (this.smDemos && this.smDemos.hasOwnProperty(name)) {
-        if (this.smDemos[name]) {
+        if (this.smDemos[name].startWith("https://open-elements.org/bower_components/pair-production/demo.html#~")) {
+          return {link:this.smDemos[name]}
+        } else if (this.smDemos[name]){
           return {
             title: name,
             html:""+this.smDemos[name],
