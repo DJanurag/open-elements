@@ -313,7 +313,13 @@
       // check local and firebace for updates
       if (this.smDemos && this.smDemos.hasOwnProperty(name)) {
         if (this.smDemos[name].startsWith("https://open-elements.org/bower_components/pair-production/demo.html#~")) {
-          return {link:this.smDemos[name]}
+          return {
+            link:this.smDemos[name],
+            title: name,
+            html:""+this.smDemos[name],
+            name: name+"-sm-demo",
+            color: color
+          }
         } else if (this.smDemos[name]){
           return {
             title: name,
