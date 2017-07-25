@@ -60,13 +60,15 @@
           <template is="dom-if" if="[[item.imports.usedBy.length]]">
             <a title="[[title(item.imports.users)]]">Users elements [[item.imports.users.length]]</a>
           </template>
-          <ul>
-            <template is="dom-repeat" items="[[item.links]]" as="link" restamp>
-              <li><a href="[[link.url]]" target="_blank">[[link.title]]</a></li>
-            </template>
-          </ul>
+          <template is="dom-if" if="[[item.links]]" restamp>
+            <ul>
+              <template is="dom-repeat" items="[[item.links]]" as="link" restamp>
+                <li><a href="[[link.url]]" target="_blank">[[link.title]]</a></li>
+              </template>
+            </ul>
+          </template>
           <template is="dom-if" if="[[item.license]]">
-            <p>[[item.license]]</p>
+            <p title="license">[[item.license]]</p>
           </template>
           <git-time git-log-url="{{item.log}}"></git-time>
         </paper-material>
