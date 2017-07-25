@@ -36,9 +36,6 @@
         <lunr-js no-stop-words data="[[data]]" fields='["name","description","gitUser"]' search="[[search]]" output="{{output}}" ></lunr-js>
       </template>
     </template>
-    <template is="dom-if" if="{{!search}}">
-      <h1>search!</h1>
-    </template>
     <template is="dom-repeat" items="[[outputPaged]]" id="thePage">
       <template is="dom-if" if="[[show]]" restamp>
         <paper-material elevation="2" on-tap="makeEditable" index="[[index]]">
@@ -276,10 +273,11 @@
             }
             titles[i].bower = folder
             titles[i].main = main
+            var addLink = false
             if (fromGitUser) {
               titles[i].travis = travisBadge(folder, fromGitUser)
               titles[i].gitUser = fromGitUser
-              var addLink = {
+              addLink = {
                 url: "https://github.com/"+fromGitUser+"/"+folder+"/blob/master/"+file,
                 title: "gh"
               }
