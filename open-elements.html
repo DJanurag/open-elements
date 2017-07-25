@@ -62,9 +62,8 @@
           </template>
           <template is="dom-if" if="[[item.links]]" restamp>
             <ul>
-              <template is="dom-repeat" items="[[item.links]]" as="link" restamp>
-                <li><a href="[[link.url]]" target="_blank">[[link.title]]</a></li>
-              </template>
+              <li><a href="[[links.0.url]]" target="_blank">[[links.0.title]]</a></li>
+              <li><a href="[[links.1.url]]" target="_blank">[[links.1.title]]</a></li>
             </ul>
           </template>
           <template is="dom-if" if="[[item.license]]">
